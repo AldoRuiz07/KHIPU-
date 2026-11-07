@@ -1,0 +1,75 @@
+codigo,nombre,categoria,encapsulado,descripcion,stock,ubicacion
+LM358,Amplificador operacional dual,Circuito integrado,DIP-8,opamp de uso general con fuente simple,12,Estante A - cajon 1
+LM2904,Amplificador operacional dual,Circuito integrado,DIP-8,opamp dual rango de temperatura ampliado,4,Estante A - cajon 1
+LM741,Amplificador operacional simple,Circuito integrado,DIP-8,opamp clasico requiere fuente dual,0,Estante A - cajon 1
+TL081,Amplificador operacional JFET,Circuito integrado,DIP-8,opamp entrada JFET bajo ruido,6,Estante A - cajon 1
+TL072,Amplificador operacional dual JFET,Circuito integrado,DIP-8,opamp dual bajo ruido para audio,8,Estante A - cajon 1
+LM386,Amplificador de audio de baja potencia,Circuito integrado,DIP-8,amplificador para parlante 8 ohm,5,Estante A - cajon 2
+NE555,Temporizador 555,Circuito integrado,DIP-8,temporizador astable y monostable,25,Estante A - cajon 2
+LM555,Temporizador 555,Circuito integrado,DIP-8,temporizador astable y monostable,0,Estante A - cajon 2
+CD4017,Contador decada Johnson,Circuito integrado,DIP-16,contador con 10 salidas decodificadas,10,Estante A - cajon 3
+CD4011,Cuatro compuertas NAND CMOS,Circuito integrado,DIP-14,logica CMOS NAND 2 entradas,8,Estante A - cajon 3
+CD4052,Multiplexor analogico dual 4:1 (CD4052),Circuito integrado,DIP-16,MUX/DEMUX CMOS para seleccion de niveles de voltaje en codigos de linea,12,Estante A - cajon 3
+74LS00,Cuatro compuertas NAND TTL,Circuito integrado,DIP-14,logica TTL NAND 2 entradas,10,Estante A - cajon 3
+74LS08,Cuatro compuertas AND TTL,Circuito integrado,DIP-14,logica TTL AND 2 entradas,7,Estante A - cajon 3
+74LS47,Decodificador BCD a 7 segmentos,Circuito integrado,DIP-16,driver para display anodo comun,4,Estante A - cajon 3
+74HC595,Registro de desplazamiento 8 bits,Circuito integrado,DIP-16,expansor de salidas serie a paralelo,9,Estante A - cajon 3
+L293D,Driver puente H doble 0.6 A,Circuito integrado,DIP-16,driver de motores DC pequenos,3,Estante A - cajon 4
+ULN2003,Arreglo Darlington 7 canales,Circuito integrado,DIP-16,driver para reles y motor paso a paso,6,Estante A - cajon 4
+PC817,Optoacoplador,Circuito integrado,DIP-4,aislamiento optico de senales,15,Estante A - cajon 4
+MOC3021,Optoacoplador triac MOC3021,Circuito integrado,DIP-6,driver de triac sin deteccion de cruce por cero,8,Estante A - cajon 4
+MOC3041,Optoacoplador triac MOC3041,Circuito integrado,DIP-6,driver de triac con deteccion de cruce por cero,6,Estante A - cajon 4
+LM7805,Regulador lineal 5 V 1 A,Regulador,TO-220,regulador de voltaje positivo 5 V,18,Estante A - cajon 5
+LM7812,Regulador lineal 12 V 1 A,Regulador,TO-220,regulador de voltaje positivo 12 V,6,Estante A - cajon 5
+LM7905,Regulador lineal -5 V 1 A,Regulador,TO-220,regulador de voltaje negativo 5 V,4,Estante A - cajon 5
+LM317,Regulador lineal ajustable 1.5 A,Regulador,TO-220,regulador ajustable 1.25 a 37 V,7,Estante A - cajon 5
+AMS1117-3.3,Regulador LDO 3.3 V,Regulador,SOT-223,regulador de baja caida 3.3 V,10,Estante A - cajon 5
+2N2222A,Transistor NPN 0.6 A,Transistor,TO-92,transistor bipolar NPN de proposito general,0,Estante B - cajon 1
+PN2222A,Transistor NPN 0.6 A,Transistor,TO-92,transistor bipolar NPN de proposito general,30,Estante B - cajon 1
+2N3904,Transistor NPN 0.2 A,Transistor,TO-92,NPN baja senal,25,Estante B - cajon 1
+BC547,Transistor NPN 0.1 A,Transistor,TO-92,NPN baja senal,40,Estante B - cajon 1
+2N3906,Transistor PNP 0.2 A,Transistor,TO-92,PNP baja senal,0,Estante B - cajon 1
+BC557,Transistor PNP 0.1 A,Transistor,TO-92,PNP baja senal,20,Estante B - cajon 1
+TIP31C,Transistor NPN de potencia 3 A,Transistor,TO-220,NPN de potencia,8,Estante B - cajon 2
+TIP120,Transistor Darlington NPN 5 A,Transistor,TO-220,Darlington para motores y cargas,6,Estante B - cajon 2
+IRFZ44N,MOSFET canal N 55 V 49 A,Transistor,TO-220,MOSFET de potencia,0,Estante B - cajon 2
+IRF540N,MOSFET canal N 100 V 33 A,Transistor,TO-220,MOSFET de potencia,5,Estante B - cajon 2
+BT151,SCR BT151 12A 500V,Semicoductor,TO-220,Tiristor rectificador controlado de silicio de potencia,8,Estante B - cajon 2
+C106,SCR C106M 4A 600V,Semicoductor,TO-92,Tiristor SCR sensible de compuerta,10,Estante B - cajon 2
+TRIAC-BT136,Triac BT136 4A 600V,Semicoductor,TO-220,Interruptor bidireccional de potencia AC,8,Estante B - cajon 2
+1N4007,Diodo rectificador 1 A 1000 V,Diodo,DO-41,diodo rectificador de uso general,100,Estante B - cajon 3
+1N4004,Diodo rectificador 1 A 400 V,Diodo,DO-41,diodo rectificador,15,Estante B - cajon 3
+1N4148,Diodo de senal rapido,Diodo,DO-35,diodo de conmutacion rapida,80,Estante B - cajon 3
+1N5819,Diodo Schottky 1 A 40 V,Diodo,DO-41,Schottky baja caida,20,Estante B - cajon 3
+1N4733A,Diodo Zener 5.1 V 1 W,Diodo,DO-41,zener de referencia 5.1 V,15,Estante B - cajon 3
+KBP307,Puente rectificador 3 A,Diodo,KBP,puente de diodos para fuentes,6,Estante B - cajon 3
+DIAC-DB3,Diac DB3 32V,Semicoductor,DO-35,Disparo bidireccional para circuitos con triac,15,Estante B - cajon 3
+LED-5MM-R,LED rojo 5 mm,Optoelectronica,5 mm,LED indicador rojo,150,Estante B - cajon 4
+LED-5MM-V,LED verde 5 mm,Optoelectronica,5 mm,LED indicador verde,120,Estante B - cajon 4
+DISP-7SEG-AC,Display 7 segmentos anodo comun,Optoelectronica,0.56 in,display numerico,12,Estante B - cajon 4
+LCD-16X2,Pantalla LCD 16x2 HD44780,Optoelectronica,Modulo,pantalla de caracteres,5,Estante B - cajon 5
+LCD-I2C,Adaptador I2C para LCD (PCF8574),Modulo,Modulo,reduce el LCD a 4 cables,4,Estante B - cajon 5
+RES-100-5W,Resistencia de potencia 100 ohm 5W,Resistencia,Ceramica,Resistencia ceramica de potencia para pruebas de rectificacion,10,Estante B - cajon 6
+CAP-4.7UF,Condensador electrolitico 4.7uF 50V,Condensador,Radial,Condensador para circuitos de conmutacion forzada de SCR,20,Estante B - cajon 6
+ARDUINO-UNO,Arduino Uno R3,Microcontrolador,Placa,placa ATmega328P,8,Estante C - cajon 1
+ARDUINO-NANO,Arduino Nano,Microcontrolador,Placa,placa ATmega328P compacta,5,Estante C - cajon 1
+ESP32-DEVKIT,ESP32 DevKit V1,Microcontrolador,Placa,microcontrolador con WiFi y Bluetooth,0,Estante C - cajon 1
+ESP8266-NODEMCU,NodeMCU ESP8266,Microcontrolador,Placa,microcontrolador con WiFi,4,Estante C - cajon 1
+HC-SR04,Sensor ultrasonico de distancia,Sensor,Modulo,mide distancia 2 a 400 cm,6,Estante C - cajon 2
+HC-SR501,Sensor de movimiento PIR,Sensor,Modulo,detecta presencia de personas,5,Estante C - cajon 2
+DHT11,Sensor de temperatura y humedad,Sensor,Modulo,temperatura y humedad basico,0,Estante C - cajon 2
+DHT22,Sensor de temperatura y humedad,Sensor,Modulo,temperatura y humedad mayor precision,3,Estante C - cajon 2
+LM35,Sensor de temperatura analogico,Sensor,TO-92,10 mV por grado Celsius,10,Estante C - cajon 2
+LDR-5MM,Fotorresistencia LDR,Sensor,5 mm,sensor de luz,30,Estante C - cajon 2
+TCRT5000,Sensor infrarrojo reflectivo,Sensor,Modulo,seguidor de linea y deteccion de obstaculos,10,Estante C - cajon 2
+MQ-2,Sensor de gas y humo,Sensor,Modulo,detector de GLP humo y metano,3,Estante C - cajon 2
+L298N,Driver puente H doble 2 A,Modulo,Modulo,driver de motores DC,2,Estante C - cajon 3
+RELE-5V-1CH,Modulo rele 5 V 1 canal,Modulo,Modulo,conmutar cargas de 220 V,7,Estante C - cajon 3
+HC-05,Modulo Bluetooth HC-05,Modulo,Modulo,comunicacion serie inalambrica,4,Estante C - cajon 3
+TRANSF-220-12,Transformador 220V a 12V AC,Transformador,Modulo,Transformador reductor 220V AC a 12V AC para fuentes y rectificadores,4,Estante C - cajon 6
+IND-20MH,Inductor 20 mH,Inductor,Bobina,Inductancia de filtrado para circuitos rectificadores,5,Estante C - cajon 6
+IND-4.7MH,Inductor 4.7 mH,Inductor,Bobina,Inductor de 4.7mH para fuentes y filtros,10,Estante C - cajon 6
+SG90,Servomotor SG90,Actuador,Modulo,servo pequeno 180 grados,6,Estante C - cajon 4
+MOTOR-DC-TT,Motor DC con caja reductora TT,Actuador,Modulo,motor para carritos y robots,10,Estante C - cajon 4
+28BYJ-48,Motor paso a paso 5 V,Actuador,Modulo,motor paso a paso unipolar,4,Estante C - cajon 4
+BUZZER-5V,Buzzer activo 5 V,Actuador,12 mm,alarma sonora,15,Estante C - cajon 4

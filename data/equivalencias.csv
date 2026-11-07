@@ -1,0 +1,14 @@
+original,equivalente,condicion,verificado
+2N2222A,PN2222A,misma funcion; revisar pinout en datasheet del fabricante,POR VERIFICAR
+2N2222A,2N3904,solo 200 mA de colector,POR VERIFICAR
+2N2222A,BC547,PINOUT DISTINTO y solo 100 mA,POR VERIFICAR
+2N3904,BC547,PINOUT DISTINTO (BC547 es CBE),POR VERIFICAR
+2N3906,BC557,PINOUT DISTINTO (BC557 es CBE),POR VERIFICAR
+LM555,NE555,reemplazo directo,POR VERIFICAR
+LM358,LM2904,mismo pinout; rango de temperatura mayor,POR VERIFICAR
+LM741,TL081,mismo pinout; entrada JFET,POR VERIFICAR
+1N4004,1N4007,reemplazo directo (soporta mas voltaje). Al reves NO,POR VERIFICAR
+IRFZ44N,IRF540N,soporta mas voltaje pero mayor Rds(on); no es de nivel logico,POR VERIFICAR
+L298N,L293D,solo 0.6 A por canal: motores pequenos,POR VERIFICAR
+DHT11,DHT22,mejor precision; cambiar el tipo de sensor en la libreria,POR VERIFICAR
+ESP32-DEVKIT,ESP8266-NODEMCU,sin Bluetooth y menos pines; codigo distinto,POR VERIFICAR

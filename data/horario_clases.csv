@@ -1,0 +1,9 @@
+laboratorio,dia,inicio,fin,curso
+LAB-A,lunes,08:00,10:00,Circuitos Eléctricos I
+LAB-A,miercoles,14:00,16:00,Circuitos Eléctricos II
+LAB-B,lunes,10:00,12:00,Electrónica I
+LAB-B,jueves,14:00,18:00,Electrónica II
+LAB-C,martes,08:00,12:00,Sistemas Digitales
+LAB-C,viernes,14:00,16:00,Sistemas Digitales
+LAB-D,miercoles,10:00,12:00,Microcontroladores
+LAB-D,sabado,08:00,12:00,Taller de Proyectos
