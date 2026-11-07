@@ -365,6 +365,11 @@ ul[role="listbox"], [data-baseweb="calendar"] {{ background: {SURF} !important; 
 [data-testid="stAlert"], [data-testid="stAlert"] * {{ color: {TXT} !important; }}
 [data-testid="stAlert"] > div, [data-testid="stAlertContainer"] {{ background: {SURF} !important; }}
 input::placeholder, textarea::placeholder {{ color: {MUTED} !important; opacity: 1 !important; }}
+[data-testid="stExpander"] summary, [data-testid="stExpander"] details[open] > summary,
+[data-testid="stExpander"] summary:hover, [data-testid="stExpander"] summary:focus {{
+    background: {SURF} !important; color: {TXT} !important;
+}}
+[data-testid="stExpander"] summary *, [data-testid="stExpander"] summary svg {{ color: {TXT} !important; fill: {TXT} !important; }}
 [data-testid="stExpander"] summary:hover * {{ color: {TITULO} !important; }}
 [data-testid="stDataFrame"], [data-testid="stDataEditor"] {{ filter: invert(.92) hue-rotate(180deg); }}
 [data-testid="stFileUploaderDropzone"] {{ background: {SURF}; }}
