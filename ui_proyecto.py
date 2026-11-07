@@ -23,9 +23,13 @@ def mostrar():
     if "bom" not in st.session_state:
         return
     st.info("Punto de partida generado por IA: verifica valores y pinout con el datasheet.")
-    df = pd.DataFrame(st.session_state.bom).drop(columns=["alt_codigo"])
+    df = pd.DataFrame(st.session_state.bom).drop(columns=["alt_codigo"]).rename(columns={
+        "pedido": "Componente", "para_que": "Para qué sirve", "cantidad": "Cantidad",
+        "en_almacen": "En almacén", "stock": "Stock", "estado": "Estado",
+        "ubicacion": "Ubicación", "alternativa": "Alternativa"})
     st.dataframe(df.style.map(lambda v: f"color: {COLORES.get(v, 'inherit')}; font-weight: 600"
-                              if v in COLORES else "", subset=["estado"]), hide_index=True)
+                              if v in COLORES else "", subset=["Estado"]),
+                 hide_index=True, use_container_width=True)
     if st.session_state.get("tips"):
         st.markdown("**Tips:**\n" + "\n".join(f"- {t}" for t in st.session_state.tips))
     if st.button("Agregar a Mi lista lo disponible (y sus equivalentes)"):

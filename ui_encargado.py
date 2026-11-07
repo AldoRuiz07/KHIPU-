@@ -8,8 +8,9 @@ import db
 def mostrar():
     clave = st.text_input("Clave del encargado", type="password", key="clave_enc")
     if clave != os.getenv("CLAVE_ENCARGADO", "fiee2026"):
-        st.info("Solo para el encargado de almacén y laboratorios.")
+        st.info("🔐 Solo para el encargado de almacén y laboratorios.")
         return
+    _resumen_en_vivo()
     sol, comp, labs, dem = st.tabs(["Solicitudes", "Componentes", "Laboratorios", "Demanda"])
     with sol:
         _solicitudes()
@@ -22,6 +23,21 @@ def mostrar():
         _editar("horario_clases", db.listar_horario())
     with dem:
         _demanda()
+
+
+@st.fragment(run_every="5s")
+def _resumen_en_vivo():
+    """Se actualiza solo cada 5 s: si llega una solicitud nueva, recarga el panel."""
+    pendientes = len(db.listar_solicitudes("pendiente"))
+    antes = st.session_state.get("pendientes_vistos")
+    st.session_state.pendientes_vistos = pendientes
+    c1, c2, c3 = st.columns(3)
+    c1.metric("⏳ Pendientes", pendientes)
+    c2.metric("✅ Aceptadas", len(db.listar_solicitudes("aceptada")))
+    c3.metric("🔴 Agotados", len(db.demanda()["agotados"]))
+    if antes is not None and pendientes > antes:
+        st.session_state.aviso = "🔔 Llegó una nueva solicitud de laboratorio"
+        st.rerun()                                  # actualiza la lista de solicitudes
 
 
 def _solicitudes():
