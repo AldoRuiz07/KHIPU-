@@ -2,12 +2,13 @@
 import os
 import streamlit as st
 import pandas as pd
-import db
+import db, correo
+from config_ia import valor
 
 
 def mostrar():
     clave = st.text_input("Clave del encargado", type="password", key="clave_enc")
-    if clave != os.getenv("CLAVE_ENCARGADO", "fiee2026"):
+    if clave != valor("CLAVE_ENCARGADO", "fiee2026"):
         st.info("🔐 Solo para el encargado de almacén y laboratorios.")
         return
     _resumen_en_vivo()
@@ -49,16 +50,31 @@ def _solicitudes():
     for s in solicitudes:
         with st.expander(f"{s['codigo']} · {s['lab_nombre']} · {s['fecha']} {s['inicio']}–{s['fin']}"):
             st.write(f"**Motivo:** {s['motivo']}")
+            if s.get("huella"):
+                if db.huella_valida(s):
+                    st.success(f"🔏 Firma válida · {s.get('verificacion')} · sello `{s['huella'][:16]}…`")
+                else:
+                    st.error("⚠️ El sello digital NO coincide: los datos fueron alterados.")
+            else:
+                st.warning("Sin firma: solicitud no verificada.")
             st.dataframe(pd.DataFrame(s["estudiantes"]), hide_index=True)
             st.dataframe(pd.DataFrame(s["items"]), hide_index=True)
             nota = st.text_input("Nota para los estudiantes (opcional)", key=f"nota_{s['codigo']}")
             c1, c2, c3 = st.columns(3)
             if estado == "pendiente" and c1.button("Aceptar", key=f"a_{s['codigo']}"):
-                db.cambiar_estado(s["codigo"], "aceptada", nota); st.rerun()
+                db.cambiar_estado(s["codigo"], "aceptada", nota); _avisar(s["codigo"]); st.rerun()
             if estado == "pendiente" and c2.button("Rechazar", key=f"r_{s['codigo']}"):
-                db.cambiar_estado(s["codigo"], "rechazada", nota); st.rerun()
+                db.cambiar_estado(s["codigo"], "rechazada", nota); _avisar(s["codigo"]); st.rerun()
             if estado == "aceptada" and c3.button("Finalizada", key=f"f_{s['codigo']}"):
                 db.cambiar_estado(s["codigo"], "finalizada", nota); st.rerun()
+
+
+def _avisar(codigo: str):
+    """Avisa al líder por correo que su solicitud cambió de estado."""
+    try:
+        st.session_state.aviso = f"📧 Avisamos por correo a {correo.avisar(codigo)}"
+    except Exception as e:
+        st.session_state.aviso = f"Estado actualizado (sin correo: {e})"
 
 
 def _editar(tabla: str, filas: list[dict]):

@@ -12,3 +12,17 @@ IRFZ44N,IRF540N,soporta mas voltaje pero mayor Rds(on); no es de nivel logico,PO
 L298N,L293D,solo 0.6 A por canal: motores pequenos,POR VERIFICAR
 DHT11,DHT22,mejor precision; cambiar el tipo de sensor en la libreria,POR VERIFICAR
 ESP32-DEVKIT,ESP8266-NODEMCU,sin Bluetooth y menos pines; codigo distinto,POR VERIFICAR
+BT151,TIC126,equivalente en tiristor SCR 12A; verificar disposicion de pines (Gate/Anodo/Catodo),POR VERIFICAR
+C106,C106M,reemplazo directo para SCR sensible de baja corriente,POR VERIFICAR
+TRIAC-BT136,TIC226,equivalente en corriente y tension para control de fases en AC,POR VERIFICAR
+MOC3021,MOC3023,MOC3023 requiere menor corriente de disparo en el LED (mayor sensibilidad),POR VERIFICAR
+MOC3041,MOC3042,MOC3042 requiere menor corriente de entrada en el diodo emisor,POR VERIFICAR
+PC817,4N35,4N35 incluye base conectada (mayor ancho de banda o susceptibilidad a ruido),POR VERIFICAR
+NE5532,TL072,NE5532 ofrece menor ruido de tension ideal para audio y circuitos analogicos avanzados,POR VERIFICAR
+LF357,TL071,LF357 tiene mayor velocidad de respuesta (slew rate) para altas frecuencias,POR VERIFICAR
+LM318,LF357,operacionales de alta velocidad para pulsos y condicionamiento de senales,POR VERIFICAR
+BB112,MV2109,diodos varicap de sintonia; verificar curvas de capacitancia vs voltaje inverso,POR VERIFICAR
+2N3866,2N4427,transistores de RF para etapas de potencia en transmisores VHF,POR VERIFICAR
+BF245,J310,JFETs de RF; verificar tension de estrangulamiento (Vgs off),POR VERIFICAR
+LM7805,AMS1117-3.3,NO ES EQUIVALENTE DIRECTO (cambia el nivel de tension de salida de 5V a 3.3V y encapsulado LDO),POR VERIFICAR
+KBP307,W04M,puente rectificador; verificar corriente maxima soportada (3A vs inferior),POR VERIFICAR

@@ -34,16 +34,16 @@ TIP31C,Transistor NPN de potencia 3 A,Transistor,TO-220,NPN de potencia,8,Estant
 TIP120,Transistor Darlington NPN 5 A,Transistor,TO-220,Darlington para motores y cargas,6,Estante B - cajon 2
 IRFZ44N,MOSFET canal N 55 V 49 A,Transistor,TO-220,MOSFET de potencia,0,Estante B - cajon 2
 IRF540N,MOSFET canal N 100 V 33 A,Transistor,TO-220,MOSFET de potencia,5,Estante B - cajon 2
-BT151,SCR BT151 12A 500V,Semicoductor,TO-220,Tiristor rectificador controlado de silicio de potencia,8,Estante B - cajon 2
-C106,SCR C106M 4A 600V,Semicoductor,TO-92,Tiristor SCR sensible de compuerta,10,Estante B - cajon 2
-TRIAC-BT136,Triac BT136 4A 600V,Semicoductor,TO-220,Interruptor bidireccional de potencia AC,8,Estante B - cajon 2
+BT151,SCR BT151 12A 500V,Semiconductor,TO-220,Tiristor rectificador controlado de silicio de potencia,8,Estante B - cajon 2
+C106,SCR C106M 4A 600V,Semiconductor,TO-92,Tiristor SCR sensible de compuerta,10,Estante B - cajon 2
+TRIAC-BT136,Triac BT136 4A 600V,Semiconductor,TO-220,Interruptor bidireccional de AC,8,Estante B - cajon 2
 1N4007,Diodo rectificador 1 A 1000 V,Diodo,DO-41,diodo rectificador de uso general,100,Estante B - cajon 3
 1N4004,Diodo rectificador 1 A 400 V,Diodo,DO-41,diodo rectificador,15,Estante B - cajon 3
 1N4148,Diodo de senal rapido,Diodo,DO-35,diodo de conmutacion rapida,80,Estante B - cajon 3
 1N5819,Diodo Schottky 1 A 40 V,Diodo,DO-41,Schottky baja caida,20,Estante B - cajon 3
 1N4733A,Diodo Zener 5.1 V 1 W,Diodo,DO-41,zener de referencia 5.1 V,15,Estante B - cajon 3
 KBP307,Puente rectificador 3 A,Diodo,KBP,puente de diodos para fuentes,6,Estante B - cajon 3
-DIAC-DB3,Diac DB3 32V,Semicoductor,DO-35,Disparo bidireccional para circuitos con triac,15,Estante B - cajon 3
+DIAC-DB3,Diac DB3 32V,Semiconductor,DO-35,Disparo bidireccional para circuitos con triac,15,Estante B - cajon 3
 LED-5MM-R,LED rojo 5 mm,Optoelectronica,5 mm,LED indicador rojo,150,Estante B - cajon 4
 LED-5MM-V,LED verde 5 mm,Optoelectronica,5 mm,LED indicador verde,120,Estante B - cajon 4
 DISP-7SEG-AC,Display 7 segmentos anodo comun,Optoelectronica,0.56 in,display numerico,12,Estante B - cajon 4
@@ -73,3 +73,20 @@ SG90,Servomotor SG90,Actuador,Modulo,servo pequeno 180 grados,6,Estante C - cajo
 MOTOR-DC-TT,Motor DC con caja reductora TT,Actuador,Modulo,motor para carritos y robots,10,Estante C - cajon 4
 28BYJ-48,Motor paso a paso 5 V,Actuador,Modulo,motor paso a paso unipolar,4,Estante C - cajon 4
 BUZZER-5V,Buzzer activo 5 V,Actuador,12 mm,alarma sonora,15,Estante C - cajon 4
+PUNTAS-OSC,Puntas de osciloscopio 100MHz 1X/10X,Instrumento,Accesorios,Puntas de prueba con pinza cocodrilo para osciloscopio,15,Estante D - cajon 1
+CABLE-BNC-BNC,Cable coaxial BNC a BNC 1m,Instrumento,Cable,Cable de interconexion para generador y osciloscopio,20,Estante D - cajon 1
+CABLE-BNC-CAIMAN,Cable BNC a pinzas Caiman,Instrumento,Cable,Cable de prueba para senales analogicas,15,Estante D - cajon 1
+MULTIMETRO-DIG,Multimetro digital RMS,Instrumento,Portatil,Medicion de tension corriente y resistencia,10,Estante D - cajon 2
+GEN-FUNCIONES,Generador de funciones 3MHz/25MHz,Instrumento,De banco,Generador de ondas senoidal cuadrada y triangular,4,Estante D - cajon 3
+FUENTE-DC-VAR,Fuente de poder DC regulada 30V 5A,Instrumento,De banco,Fuente DC ajustable para alimentacion de circuitos,6,Estante D - cajon 3
+LF357,Amplificador operacional JFET de alta velocidad,Circuito integrado,DIP-8,Opamp de alta velocidad y ancho de banda amplio para comunicaciones,8,Estante A - cajon 1
+NE5532,Amplificador operacional doble de bajo ruido para audio/analogica,Circuito integrado,DIP-8,Opamp doble de alto rendimiento acustico y lineal,12,Estante A - cajon 1
+LM318,Amplificador operacional de alta velocidad,Circuito integrado,DIP-8,Opamp para aplicaciones de alta frecuencia y pulsos,5,Estante A - cajon 1
+2N2369,Transistor NPN de conmutacion rapida RF,Transistor,TO-18,Transistor bipolar para alta velocidad y conmutacion,15,Estante B - cajon 1
+2N3866,Transistor NPN RF potencia VHF/UHF,Transistor,TO-39,Transistor para etapas de salida en transmisores y RF,6,Estante B - cajon 2
+BFR96,Transistor NPN de silicio para RF banda ancha,Transistor,SOT-143,Transistor de microondas y comunicaciones,10,Estante B - cajon 2
+BF245,Transistor JFET canal N RF,Transistor,TO-92,JFET para amplificadores de pequena senal y RF,14,Estante B - cajon 2
+BB112,Diodo Varicap / Sintonia,Diodo,SOD-323,Diodo de capacidad variable para osciladores controlados por voltaje (VCO),10,Estante B - cajon 3
+MV2109,Diodo Varicap de sintonia RF,Diodo,DO-7,Diodo de capacidad variable para sintonizadores de RF,8,Estante B - cajon 3
+NPO-100PF,Condensador ceramico estabilidad alta 100pF,Condensador,Disco,Condensador tipo NP0 para circuitos resonantes de RF,30,Estante C - cajon 5
+TOROIDE-T50-2,Nucleo toroidal de hierro polvo T50-2,Inductor,Toroide,Nucleo para construccion de bobinas y filtros pasa-bajos de RF,15,Estante C - cajon 6
