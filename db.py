@@ -46,10 +46,27 @@ def _leer_csv(nombre):
     with open(CARPETA / nombre, encoding="utf-8-sig") as f:
         return list(csv.DictReader(f))
 
+ARCHIVOS_DATOS = ("inventario.csv", "equivalencias.csv", "laboratorios.csv", "horario_clases.csv")
+
+def _firma_datos() -> str:
+    """Huella de los CSV de data/: si alguien los cambia, la base se recarga sola."""
+    h = hashlib.sha256()
+    for nombre in ARCHIVOS_DATOS:
+        h.update((CARPETA / nombre).read_bytes())
+    return h.hexdigest()
+
 def iniciar():
-    """Crea las tablas y carga los CSV (solo si la base está vacía)."""
+    """Crea las tablas y carga los CSV la primera vez o cuando cambian.
+    Las reservas, firmas y publicaciones se conservan."""
     con = conectar()
     con.executescript(ESQUEMA)
+    con.execute("CREATE TABLE IF NOT EXISTS meta (clave TEXT PRIMARY KEY, valor TEXT)")
+    firma = _firma_datos()
+    guardada = con.execute("SELECT valor FROM meta WHERE clave='datos'").fetchone()
+    if guardada is None or guardada[0] != firma:
+        for tabla in ("componentes", "equivalencias", "laboratorios", "horario_clases"):
+            con.execute(f"DELETE FROM {tabla}")
+        con.execute("INSERT OR REPLACE INTO meta VALUES ('datos', ?)", (firma,))
     for columna in ("verificacion", "huella"):          # bases creadas antes de la firma
         try:
             con.execute(f"ALTER TABLE solicitudes ADD COLUMN {columna} TEXT")
@@ -66,7 +83,8 @@ def iniciar():
             [(r["codigo"], r["nombre"], int(r["capacidad"]), r["ubicacion"]) for r in _leer_csv("laboratorios.csv")])
         con.executemany("INSERT INTO horario_clases VALUES (?,?,?,?,?)",
             [(r["laboratorio"], r["dia"], r["inicio"], r["fin"], r["curso"]) for r in _leer_csv("horario_clases.csv")])
-        con.commit()
+    con.commit()
+    con.close()
 
 
 def _filas(sql, params=()):
