@@ -31,7 +31,7 @@ Reglas:
    fecha a partir de HOY (abajo). Las franjas son de 2 horas: 08:00, 10:00, 12:00,
    14:00, 16:00 y 18:00. Di cuáles están libres y, de los ocupados, el motivo.
 9. Responde en español, breve y ordenado. Los componentes solo se usan en laboratorio:
-   para pedirlos y reservar, el estudiante usa la pestaña Laboratorio."""
+   para pedirlos y reservar, el estudiante usa la pestaña Reservar Laboratorio."""
 
 DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
 

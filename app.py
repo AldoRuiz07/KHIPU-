@@ -1,7 +1,7 @@
 """app.py - arma la página: encabezado, modo Estudiante/Encargado y pestañas (dueño: P3).
 Ejecutar con: streamlit run app.py"""
 import streamlit as st
-import db, lista, estilo, ventas, ui_chat, ui_proyecto, ui_laboratorio, ui_ventas, ui_encargado
+import db, lista, estilo, ventas, ui_inicio, ui_chat, ui_proyecto, ui_laboratorio, ui_ventas, ui_encargado
 
 st.set_page_config(page_title="Khipu - Almacén FIEE", page_icon="assets/icono.png",
                    layout="wide")
@@ -38,7 +38,7 @@ estilo.encabezado("Consulta, planifica y reserva",
 with st.sidebar:                                    # Mi lista
     st.markdown("### Mi lista")
     if not st.session_state.mi_lista:
-        st.caption("Vacía. Lo que te recomiende el chat o Mi proyecto aparecerá aquí.")
+        st.caption("Vacía. Lo que te recomiende el chat o Armar un proyecto aparecerá aquí.")
     for item in list(st.session_state.mi_lista):
         c1, c2 = st.columns([4, 1], vertical_alignment="center")
         c1.markdown(f"**{item['codigo']}** × {item['cantidad']}  \n"
@@ -47,10 +47,10 @@ with st.sidebar:                                    # Mi lista
         if c2.button("✕", key=f"quitar_{item['codigo']}"):
             lista.quitar(st.session_state.mi_lista, item["codigo"]); st.rerun()
     if st.session_state.mi_lista:
-        st.info("Puedes reservarlos en la pestaña **Laboratorio**.")
+        st.info("Puedes reservarlos en la pestaña **Reservar Laboratorio**.")
 
-pestanas = st.tabs(["Preguntar", "Mi proyecto", "Laboratorio", "Compra y venta"])
-for pestana, modulo in zip(pestanas, [ui_chat, ui_proyecto, ui_laboratorio, ui_ventas]):
+pestanas = st.tabs(["Inicio", "Preguntar a Khipu", "Armar un proyecto", "Reservar Laboratorio", "Compra y Venta"])
+for pestana, modulo in zip(pestanas, [ui_inicio, ui_chat, ui_proyecto, ui_laboratorio, ui_ventas]):
     with pestana:
         modulo.mostrar()
 

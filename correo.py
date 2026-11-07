@@ -136,14 +136,14 @@ def avisar_publicacion(p: dict):
         raise RuntimeError("el envío de correos no está configurado")
     aprobada = p["estado"] == "publicada"
     titulo = "Tu publicación fue aprobada y ya está visible" if aprobada else "Tu publicación no fue aprobada"
-    detalle = (f"Para marcarla como vendida usa este código en Khipu → Compra y venta → "
+    detalle = (f"Para marcarla como vendida usa este código en Khipu → Compra y Venta → "
                f"Mis publicaciones: {p['codigo']}") if aprobada else "Puedes corregirla y publicar de nuevo."
     nota = f"Nota del encargado: {p['nota']}" if p.get("nota") else ""
     texto = (f"Hola {p['nombre']},\n\n{titulo}\n\n{p['titulo']} · {p['cantidad']} unid. · "
              f"S/ {p['precio']:.2f}\n{nota}\n{detalle}\n\nKhipu · FIEE-UNMSM")
     html = f"""<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:{NAVY}">
   <div style="background:{NAVY};color:white;padding:16px 20px;border-radius:12px 12px 0 0">
-    <b style="font-size:20px">Khipu</b> · Compra y venta</div>
+    <b style="font-size:20px">Khipu</b> · Compra y Venta</div>
   <div style="border:1px solid #E3E8F1;border-top:none;padding:20px;border-radius:0 0 12px 12px">
     <p>Hola <b>{escape(p['nombre'])}</b>,</p><h3 style="margin:4px 0 12px">{escape(titulo)}</h3>
     <p><b>{escape(p['titulo'])}</b> · {p['cantidad']} unid. · S/ {p['precio']:.2f}</p>
