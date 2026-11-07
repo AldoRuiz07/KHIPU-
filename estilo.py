@@ -304,6 +304,8 @@ input::placeholder, textarea::placeholder {{ color: {MUTED} !important; opacity:
 [data-testid="stDataFrame"], [data-testid="stDataEditor"] {{ filter: invert(.92) hue-rotate(180deg); }}
 [data-testid="stFileUploaderDropzone"] {{ background: {SURF}; }}
 [data-testid="stSegmentedControl"] button {{ background: {SURF}; color: {TXT}; border-color: {BORDE}; }}
+[data-testid="stToast"] {{ background: {SURF} !important; border: 1px solid {BORDE} !important; }}
+[data-testid="stToast"] * {{ background: transparent !important; }}
 [data-testid="stToast"], [data-testid="stToast"] * {{ color: {TXT} !important; }}
 </style>
 """
