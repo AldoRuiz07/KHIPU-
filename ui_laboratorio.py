@@ -95,32 +95,107 @@ def _nueva_reserva():
             st.rerun()
 
 # ------------------------------------------------------------------ calendario semanal
-DIAS_CORTOS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
+         "septiembre", "octubre", "noviembre", "diciembre"]
+SEMANAS_MAX = 8                                   # cuántas semanas hacia adelante se pueden ver
+
+ESTILO_CALENDARIO = """<style>
+.st-key-calendario { background: #FAFBFF; border: 1px solid #E3E8F5 !important; border-radius: 14px; }
+.st-key-calendario [data-testid="stHorizontalBlock"] { gap: 6px; flex-wrap: nowrap; }
+.st-key-calendario [data-testid="stColumn"] { min-width: 0; }
+.st-key-calendario button { min-height: 44px; border-radius: 10px !important; font-size: .82rem;
+    padding: 4px 2px; transition: transform .08s ease, box-shadow .12s ease; }
+.st-key-calendario [class*="st-key-cal_libre"] button {
+    background: #E9F7EF; border: 1px solid #BFE5CC; color: #17633A; }
+.st-key-calendario [class*="st-key-cal_libre"] button:hover {
+    background: #D4F0DF; border-color: #6CC08D; color: #0F4D2B; transform: translateY(-1px); }
+.st-key-calendario [class*="st-key-cal_lleno"] button,
+.st-key-calendario [class*="st-key-cal_pasado"] button {
+    background: #F3F4F6 !important; border: 1px dashed #E0E2E7 !important; color: #A3A8B3 !important; }
+.st-key-calendario [class*="st-key-cal_sel"] button {
+    box-shadow: 0 0 0 3px rgba(201,162,39,.55); transform: translateY(-1px); font-weight: 600; }
+.cal-dia { text-align: center; padding: 6px 0 4px; border-radius: 10px; line-height: 1.15; }
+.cal-dia b { display: block; font-size: .8rem; color: #0B1F66; }
+.cal-dia span { font-size: .72rem; color: #6B7280; }
+.cal-dia.hoy { background: #0B1F66; }
+.cal-dia.hoy b, .cal-dia.hoy span { color: #FFFFFF; }
+.cal-hora { font-size: .75rem; color: #6B7280; text-align: right; padding-top: 12px; white-space: nowrap; }
+.cal-leyenda { display: flex; gap: 14px; flex-wrap: wrap; font-size: .78rem; color: #4B5563; margin: 2px 0 6px; }
+.cal-leyenda i { display: inline-block; width: 12px; height: 12px; border-radius: 4px;
+    margin-right: 5px; vertical-align: -1px; }
+.cal-elegido { background: #EEF2FF; border-left: 4px solid #0B1F66; border-radius: 8px;
+    padding: 8px 12px; font-size: .88rem; color: #0B1F66; margin-top: 6px; }
+@media (max-width: 640px) {
+  .st-key-calendario button { font-size: .66rem; min-height: 38px; }
+  .cal-hora { font-size: .62rem; } .cal-dia b { font-size: .68rem; } .cal-dia span { font-size: .6rem; }
+}
+</style>"""
+
+def _ahora_lima() -> datetime:
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.now(ZoneInfo("America/Lima"))     # el servidor está en otra zona horaria
+    except Exception:
+        return datetime.now()
 
 def _calendario():
     """Semana de lunes a sábado con las franjas libres. Al tocar una, se llena el formulario."""
-    with st.expander("Ver horarios libres de la semana", expanded=True):
-        c1, c2 = st.columns([1, 2])
-        semana = c1.date_input("Semana del", min_value=date.today(), format="DD/MM/YYYY", key="cal_semana")
+    st.markdown(ESTILO_CALENDARIO, unsafe_allow_html=True)
+    ahora = _ahora_lima()
+    hoy, hora = ahora.date(), ahora.strftime("%H:%M")
+    if "cal_semana" not in st.session_state:
+        st.session_state.cal_semana = 0
+    # Sábado o domingo: la semana actual casi terminó, así que se abre la siguiente
+    base = hoy - timedelta(days=hoy.weekday()) + timedelta(weeks=1 if hoy.weekday() >= 5 else 0)
+    minimo = -1 if hoy.weekday() == 5 else 0              # el sábado aún se puede volver a hoy
+    lunes = base + timedelta(weeks=st.session_state.cal_semana)
+    sabado = lunes + timedelta(days=5)
+    elegido_fecha = st.session_state.get("lab_fecha")
+    elegido_franja = st.session_state.get("lab_franja")
+
+    with st.container(border=True, key="calendario"):
+        st.markdown("**Horarios libres de los laboratorios**")
         labs = db.listar_laboratorios()
         nombres = {l["codigo"]: l["nombre"] for l in labs}
-        opcion = c2.selectbox("Laboratorio", ["Todos"] + list(nombres), key="cal_lab",
+        opcion = st.selectbox("Laboratorio", ["Todos"] + list(nombres), key="cal_lab",
                               format_func=lambda c: "Todos los laboratorios" if c == "Todos" else nombres[c])
-        lunes = semana - timedelta(days=semana.weekday())
-        try:
-            from zoneinfo import ZoneInfo
-            ahora = datetime.now(ZoneInfo("America/Lima"))     # el servidor está en otra zona horaria
-        except Exception:
-            ahora = datetime.now()
-        hoy, hora = ahora.date(), ahora.strftime("%H:%M")
-        cabecera = st.columns(7)
-        cabecera[0].caption("Horario")
+
+        # Navegación por semanas
+        n1, n2, n3 = st.columns([1, 2, 1], vertical_alignment="center")
+        if n1.button("‹ Anterior", key="cal_ant", use_container_width=True,
+                     disabled=st.session_state.cal_semana <= minimo):
+            st.session_state.cal_semana -= 1
+            st.rerun()
+        if lunes.month == sabado.month:
+            rango = f"{lunes.day} al {sabado.day} de {MESES[lunes.month - 1]}"
+        else:
+            rango = f"{lunes.day} de {MESES[lunes.month - 1]} al {sabado.day} de {MESES[sabado.month - 1]}"
+        n2.markdown(f"<div style='text-align:center;font-weight:600;color:#0B1F66'>Semana del {rango}</div>",
+                    unsafe_allow_html=True)
+        if n3.button("Siguiente ›", key="cal_sig", use_container_width=True,
+                     disabled=st.session_state.cal_semana >= SEMANAS_MAX):
+            st.session_state.cal_semana += 1
+            st.rerun()
+
+        st.markdown("<div class='cal-leyenda'>"
+                    "<span><i style='background:#E9F7EF;border:1px solid #BFE5CC'></i>Libre</span>"
+                    "<span><i style='background:#0B1F66'></i>Tu elección</span>"
+                    "<span><i style='background:#F3F4F6;border:1px dashed #D1D5DB'></i>Ocupado o pasado</span>"
+                    "</div>", unsafe_allow_html=True)
+
+        # Cabecera con los días
+        cabecera = st.columns([0.9] + [1] * 6)
         for j in range(6):
             d = lunes + timedelta(days=j)
-            cabecera[j + 1].caption(f"**{DIAS_CORTOS[j]}** {d.day:02d}/{d.month:02d}")
+            clase = "cal-dia hoy" if d == hoy else "cal-dia"
+            cabecera[j + 1].markdown(f"<div class='{clase}'><b>{DIAS[j][:3]}</b><span>{d.day:02d}/{d.month:02d}</span></div>",
+                                     unsafe_allow_html=True)
+
+        # Una fila por franja de 2 horas
         for inicio, fin in db.FRANJAS:
-            fila = st.columns(7)
-            fila[0].caption(f"{inicio}-{fin}")
+            fila = st.columns([0.9] + [1] * 6)
+            fila[0].markdown(f"<div class='cal-hora'>{inicio}<br>{fin}</div>", unsafe_allow_html=True)
             for j in range(6):
                 d = lunes + timedelta(days=j)
                 pasado = d < hoy or (d == hoy and inicio <= hora)
@@ -128,22 +203,36 @@ def _calendario():
                 if opcion != "Todos":
                     estado = [l for l in estado if l["codigo"] == opcion]
                 libres = [l for l in estado if not l["ocupado"]]
+                seleccionada = (not pasado and libres and elegido_fecha == d
+                                and tuple(elegido_franja or ()) == (inicio, fin))
                 if pasado:
-                    texto = "-"
-                elif opcion == "Todos":
-                    texto = f"{len(libres)} libres" if libres else "Lleno"
+                    texto, tipo = "·", "pasado"
+                elif not libres:
+                    texto, tipo = ("Lleno" if opcion == "Todos" else "Ocupado"), "lleno"
                 else:
-                    texto = "Libre" if libres else "Ocupado"
-                ayuda = ", ".join(l["nombre"] for l in libres) if libres else \
-                        "; ".join(l["motivo"] for l in estado if l["ocupado"])
-                if fila[j + 1].button(texto, key=f"cal_{d}_{inicio}", disabled=pasado or not libres,
-                                      use_container_width=True, help=ayuda or None):
+                    texto = (f"{len(libres)} libre" + ("s" if len(libres) > 1 else "")) if opcion == "Todos" else "Libre"
+                    tipo = "sel" if seleccionada else "libre"
+                if pasado:
+                    ayuda = "Esta franja ya pasó"
+                elif libres:
+                    ayuda = "Libres: " + ", ".join(l["nombre"] for l in libres)
+                else:
+                    ayuda = "Ocupado: " + "; ".join(l["motivo"] for l in estado if l["ocupado"])
+                if fila[j + 1].button(texto, key=f"cal_{tipo}_{d}_{inicio}", disabled=pasado or not libres,
+                                      type="primary" if seleccionada else "secondary",
+                                      use_container_width=True, help=ayuda):
                     st.session_state.lab_fecha = d
                     st.session_state.lab_franja = (inicio, fin)
                     if opcion != "Todos":
                         st.session_state.lab_preferido = opcion
                     st.rerun()
-        st.caption("Toca una franja para llenar la fecha y el horario de tu reserva.")
+
+        if elegido_fecha and elegido_franja and lunes <= elegido_fecha <= sabado:
+            st.markdown(f"<div class='cal-elegido'>Elegiste el <b>{DIAS[elegido_fecha.weekday()].lower() if elegido_fecha.weekday() < 6 else 'domingo'} "
+                        f"{elegido_fecha.day:02d}/{elegido_fecha.month:02d}</b>, de <b>{elegido_franja[0]} a {elegido_franja[1]}</b>. "
+                        "Completa los datos de abajo.</div>", unsafe_allow_html=True)
+        else:
+            st.caption("Toca una franja libre: la fecha y el horario de abajo se llenan solos.")
 
 
 # ------------------------------------------------------------------ firma electrónica simple
