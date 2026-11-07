@@ -307,6 +307,17 @@ label, [data-testid="stWidgetLabel"] p {{ font-size: .95rem !important; }}
 .stTabs [data-baseweb="tab"] p {{ font-size: 1rem; }}
 .khipu-pie {{ font-size: .88rem; }}
 .khipu-pasos span {{ font-size: .9rem; }}
+
+/* ---------- Barra lateral más angosta y botones de herramientas más grandes ---------- */
+[data-testid="stSidebar"][aria-expanded="true"] {{ min-width: 250px !important; max-width: 250px !important; }}
+[data-testid="stSidebar"] .stButton > button {{
+    min-height: 54px; padding: 10px 14px; justify-content: flex-start; gap: 10px;
+    border-radius: 10px; margin-bottom: 4px;
+}}
+[data-testid="stSidebar"] .stButton > button p {{ font-size: 1.05rem !important; font-weight: 600; text-align: left !important; }}
+[data-testid="stSidebar"] .stButton > button [data-testid="stIconMaterial"],
+[data-testid="stSidebar"] .stButton > button span[class*="material"] {{ font-size: 1.6rem !important; }}
+[data-testid="stSidebar"] .khipu-nav-titulo {{ font-size: .82rem; }}
 </style>
 """
     if not oscuro:
