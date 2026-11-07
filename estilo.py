@@ -341,6 +341,15 @@ label, [data-testid="stWidgetLabel"] p {{ font-size: .95rem !important; }}
 [data-testid="stChatMessage"] {{ color: {TXT}; }}
 [data-testid="stCaptionContainer"], .stApp small {{ color: {MUTED} !important; }}
 header[data-testid="stHeader"] *, [data-testid="stToolbar"] * {{ color: {TXT} !important; }}
+[data-testid="stToolbar"] svg, [data-testid="stToolbar"] svg *, header[data-testid="stHeader"] svg,
+[data-testid="stToolbarActions"] svg, [data-testid="stToolbarActionButton"] svg {{
+    fill: #FFFFFF !important; color: #FFFFFF !important;
+}}
+[data-testid="stToolbarActionButton"] button, [data-testid="stToolbarActions"] button {{
+    border-color: #3A3A42 !important;
+}}
+[data-testid="stToolbar"] button, [data-testid="stToolbar"] button p,
+[data-testid="stToolbarActionButton"] *, [data-testid="stMainMenu"] * {{ color: #FFFFFF !important; }}
 [data-testid="stSidebar"] * {{ color: {TXT}; }}
 [data-testid="stSidebar"] [data-testid="stCaptionContainer"] * {{ color: {MUTED} !important; }}
 code, pre {{ background: {SURF2} !important; color: {TXT} !important; }}
