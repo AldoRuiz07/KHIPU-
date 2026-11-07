@@ -2,7 +2,7 @@
 from datetime import date
 import streamlit as st
 import pandas as pd
-import db, lista
+import db, lista, correo
 
 ICONO = {"pendiente": "⏳", "aceptada": "✅", "rechazada": "❌", "finalizada": "🏁"}
 
@@ -36,11 +36,13 @@ def _nueva_reserva():
     motivo = st.text_input("Motivo", placeholder="Armado del proyecto final de Electrónica I")
 
     # 2. Estudiantes (mínimo 2)
-    st.markdown("**2. Estudiantes (mínimo 2)**")
+    st.markdown("**2. Estudiantes (mínimo 2)** · el de la **fila 1 es el líder** y recibe la "
+                "confirmación por correo")
     estudiantes = st.data_editor(
         pd.DataFrame([{"nombre": "", "codigo_alumno": "", "correo": ""}] * 2),
         num_rows="dynamic", hide_index=True, key="estudiantes",
-        column_config={"nombre": "Apellidos y nombres", "codigo_alumno": "Código", "correo": "Correo @unmsm.edu.pe"}
+        column_config={"nombre": "Apellidos y nombres", "codigo_alumno": "Código",
+                       "correo": "Correo @unmsm.edu.pe (obligatorio el líder)"}
     )
 
     # 3. Componentes: llega lo de Mi lista, con lo disponible en esa franja
@@ -59,15 +61,28 @@ def _nueva_reserva():
         st.caption("Disponible en esa franja: " + ", ".join(f"{c}: {max(disp.get(c, 0), 0)}" for c, _ in pedidos))
         
     if st.button("Enviar solicitud", type="primary"):
+        filas = [e for e in estudiantes.to_dict("records")
+                 if str(e.get("nombre") or "").strip() and str(e.get("codigo_alumno") or "").strip()]
+        correo_lider = str(filas[0].get("correo") or "").strip() if filas else ""
+        if filas and not correo_lider.endswith("@unmsm.edu.pe"):
+            st.error("El líder (fila 1) debe poner su correo @unmsm.edu.pe para recibir la confirmación.")
+            return
         try:
             codigo = db.crear_solicitud(
                 lab["codigo"], fecha_txt, inicio, fin, motivo,
                 estudiantes.to_dict("records"), pedidos
             )
-            st.session_state.mi_lista.clear()
-            st.success(f"Solicitud enviada. Tu código es **{codigo}**. El encargado la revisará; consulta el estado en la otra pestaña.")
         except ValueError as e:
             st.error(str(e))
+            return
+        st.session_state.mi_lista.clear()
+        st.success(f"Solicitud enviada. Tu código es **{codigo}**. El encargado la revisará; "
+                   "consulta el estado en la otra pestaña.")
+        with st.spinner("Enviando confirmación por correo..."):
+            try:
+                st.info(f"📧 Te enviamos la confirmación a **{correo.avisar(codigo)}**.")
+            except Exception as e:
+                st.warning(f"No se pudo enviar el correo ({e}). Guarda tu código: **{codigo}**.")
 
 def _consultar():
     codigo = st.text_input("Código de solicitud (LAB-XXXX)")
