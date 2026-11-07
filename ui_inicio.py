@@ -1,31 +1,25 @@
-"""ui_inicio.py - pestaña Inicio: qué es Khipu, cómo se usa, quiénes somos y preguntas frecuentes."""
+"""ui_inicio.py - pestaña Inicio: qué es Khipu, cómo se usa y preguntas frecuentes."""
 import streamlit as st
-import db, estilo
+import db
 
 ESTILO = """<style>
-.ini-intro { font-size: 1.05rem; color: #374151; max-width: 820px; line-height: 1.6; }
-.ini-titulo { font-size: 1.35rem; font-weight: 700; color: #0B1F66; margin: 28px 0 4px; }
-.ini-titulo::after { content: ""; display: block; width: 48px; height: 3px; background: #C9A227; margin-top: 8px; }
-.ini-sub { color: #6B7280; font-size: .92rem; margin-bottom: 14px; }
-.ini-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
-.ini-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 18px; }
+.ini-intro { font-size: 1.05rem; color: var(--k-txt); max-width: 820px; line-height: 1.65; }
+.ini-titulo { font-size: 1.35rem; font-weight: 700; color: var(--k-titulo); margin: 28px 0 4px; }
+.ini-titulo::after { content: ""; display: block; width: 48px; height: 3px; background: var(--k-oro); margin-top: 8px; }
+.ini-sub { color: var(--k-muted); font-size: .92rem; margin: 8px 0 14px; }
+.ini-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-top: 10px; }
+.ini-card { background: var(--k-surf); border: 1px solid var(--k-borde); border-radius: 12px; padding: 18px; }
 .ini-card .num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px;
-    border-radius: 50%; background: #0B1F66; color: #FFFFFF; font-weight: 700; font-size: .85rem; }
-.ini-card h4 { margin: 10px 0 6px; font-size: 1rem; color: #0A0A0A; }
-.ini-card p { margin: 0; font-size: .88rem; color: #4B5563; line-height: 1.5; }
+    border-radius: 50%; background: var(--k-btn); color: #FFFFFF; font-weight: 700; font-size: .85rem; }
+.ini-card h4 { margin: 10px 0 6px; font-size: 1rem; color: var(--k-txt); }
+.ini-card p { margin: 0; font-size: .9rem; color: var(--k-muted); line-height: 1.55; }
 .ini-cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 18px; }
-.ini-cifra { background: #F5F7FF; border-radius: 12px; padding: 14px 16px; }
-.ini-cifra b { display: block; font-size: 1.5rem; color: #0B1F66; }
-.ini-cifra span { font-size: .82rem; color: #4B5563; }
-.ini-nombre { background: #FBF7EA; border-left: 4px solid #C9A227; border-radius: 8px; padding: 14px 18px;
-    color: #374151; font-size: .92rem; line-height: 1.55; margin-top: 18px; }
-.ini-equipo { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
-.ini-persona { text-align: center; background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px 14px; }
-.ini-persona img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 3px solid #E3E8F5; }
-.ini-persona b { display: block; margin-top: 10px; color: #0A0A0A; }
-.ini-persona span { display: block; font-size: .85rem; color: #6B7280; margin: 4px 0 10px; }
-.ini-persona a { font-size: .85rem; color: #0B1F66; font-weight: 600; text-decoration: none; }
-.ini-persona a:hover { text-decoration: underline; }
+.ini-cifra { background: var(--k-tinte); border: 1px solid var(--k-borde); border-radius: 12px; padding: 14px 16px; }
+.ini-cifra b { display: block; font-size: 1.5rem; color: var(--k-titulo); }
+.ini-cifra span { font-size: .85rem; color: var(--k-txt); }
+.ini-nombre { background: var(--k-tinte-oro); border-left: 4px solid var(--k-oro); border-radius: 8px;
+    padding: 14px 18px; color: var(--k-txt); font-size: .94rem; line-height: 1.6; margin-top: 18px; }
+.ini-nombre b { color: var(--k-txt); }
 </style>"""
 
 PASOS = [
@@ -41,15 +35,6 @@ PASOS = [
     ("Compra y Venta",
      "Publica los componentes que ya no usas o encuentra los que te faltan entre estudiantes "
      "de la facultad. Cada publicación la revisa el encargado."),
-]
-
-EQUIPO = [
-    ("karla.png", "Karla Montes", "Base de datos y reservas de laboratorio",
-     "https://www.linkedin.com/in/karlamontesm"),
-    ("aldo.png", "Aldo Ruiz", "Chat con IA, fotos y PDFs",
-     "https://www.linkedin.com/in/aldoruiz07/"),
-    ("erik.png", "Erik Espinel", "Interfaz, armado de proyectos y panel del encargado",
-     "https://www.linkedin.com/in/erik-espinel-bernilla"),
 ]
 
 PREGUNTAS = [
@@ -118,20 +103,10 @@ def mostrar():
         unsafe_allow_html=True)
 
     # Cómo funciona
-    _titulo("¿Cómo funciona?", "Cuatro herramientas, una en cada pestaña de arriba.")
+    _titulo("¿Cómo funciona?", "Cuatro herramientas: ábrelas desde el menú de la izquierda.")
     tarjetas = "".join(f"<div class='ini-card'><span class='num'>{i}</span><h4>{t}</h4><p>{d}</p></div>"
                        for i, (t, d) in enumerate(PASOS, 1))
     st.markdown(f"<div class='ini-grid'>{tarjetas}</div>", unsafe_allow_html=True)
-
-    # Quiénes somos
-    _titulo("Quiénes somos",
-            "Estudiantes de la FIEE-UNMSM. Creamos Khipu para el hackathon ENEISOFT 2026.")
-    personas = "".join(
-        f"<div class='ini-persona'><img src='{estilo._img('equipo/' + foto)}' alt='{nombre}'>"
-        f"<b>{nombre}</b><span>{rol}</span>"
-        f"<a href='{enlace}' target='_blank' rel='noopener'>LinkedIn</a></div>"
-        for foto, nombre, rol, enlace in EQUIPO)
-    st.markdown(f"<div class='ini-equipo'>{personas}</div>", unsafe_allow_html=True)
 
     # Preguntas frecuentes
     _titulo("Preguntas frecuentes")

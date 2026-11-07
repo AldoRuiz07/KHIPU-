@@ -37,7 +37,7 @@ def _nueva_reserva():
     labs = db.estado_laboratorios(fecha_txt, inicio, fin)
     for l in labs:
         if l["ocupado"]:
-            st.markdown(f"~~{l['nombre']}~~ &nbsp; <span style='color:#C62828'>ocupado: {l['motivo']}</span>", unsafe_allow_html=True)
+            st.markdown(f"~~{l['nombre']}~~ &nbsp; <span style='color:#E5484D'>ocupado: {l['motivo']}</span>", unsafe_allow_html=True)
             
     libres = [l for l in labs if not l["ocupado"]]
     if not libres:
@@ -101,31 +101,32 @@ MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto
 SEMANAS_MAX = 8                                   # cuántas semanas hacia adelante se pueden ver
 
 ESTILO_CALENDARIO = """<style>
-.st-key-calendario { background: #FAFBFF; border: 1px solid #E3E8F5 !important; border-radius: 14px; }
+.st-key-calendario { background: var(--k-surf, #FAFBFF); border: 1px solid var(--k-borde, #E3E8F5) !important; border-radius: 14px; }
 .st-key-calendario [data-testid="stHorizontalBlock"] { gap: 6px; flex-wrap: nowrap; }
 .st-key-calendario [data-testid="stColumn"] { min-width: 0; }
 .st-key-calendario button { min-height: 44px; border-radius: 10px !important; font-size: .82rem;
     padding: 4px 2px; transition: transform .08s ease, box-shadow .12s ease; }
 .st-key-calendario [class*="st-key-cal_libre"] button {
-    background: #E9F7EF; border: 1px solid #BFE5CC; color: #17633A; }
+    background: var(--k-libre, #E9F7EF); border: 1px solid var(--k-libre-b, #BFE5CC); color: var(--k-libre-t, #17633A); }
 .st-key-calendario [class*="st-key-cal_libre"] button:hover {
-    background: #D4F0DF; border-color: #6CC08D; color: #0F4D2B; transform: translateY(-1px); }
+    filter: brightness(.96); border-color: var(--k-libre-t, #6CC08D); color: var(--k-libre-t, #0F4D2B); transform: translateY(-1px); }
+.st-key-calendario [class*="st-key-cal_"] button p { color: inherit !important; }
 .st-key-calendario [class*="st-key-cal_lleno"] button,
 .st-key-calendario [class*="st-key-cal_pasado"] button {
-    background: #F3F4F6 !important; border: 1px dashed #E0E2E7 !important; color: #A3A8B3 !important; }
+    background: var(--k-off, #F3F4F6) !important; border: 1px dashed var(--k-borde, #E0E2E7) !important; color: var(--k-off-t, #A3A8B3) !important; }
 .st-key-calendario [class*="st-key-cal_sel"] button {
     box-shadow: 0 0 0 3px rgba(201,162,39,.55); transform: translateY(-1px); font-weight: 600; }
 .cal-dia { text-align: center; padding: 6px 0 4px; border-radius: 10px; line-height: 1.15; }
-.cal-dia b { display: block; font-size: .8rem; color: #0B1F66; }
-.cal-dia span { font-size: .72rem; color: #6B7280; }
-.cal-dia.hoy { background: #0B1F66; }
+.cal-dia b { display: block; font-size: .8rem; color: var(--k-titulo, #0B1F66); }
+.cal-dia span { font-size: .72rem; color: var(--k-muted, #6B7280); }
+.cal-dia.hoy { background: var(--k-btn, #0B1F66); }
 .cal-dia.hoy b, .cal-dia.hoy span { color: #FFFFFF; }
-.cal-hora { font-size: .75rem; color: #6B7280; text-align: right; padding-top: 12px; white-space: nowrap; }
-.cal-leyenda { display: flex; gap: 14px; flex-wrap: wrap; font-size: .78rem; color: #4B5563; margin: 2px 0 6px; }
+.cal-hora { font-size: .75rem; color: var(--k-muted, #6B7280); text-align: right; padding-top: 12px; white-space: nowrap; }
+.cal-leyenda { display: flex; gap: 14px; flex-wrap: wrap; font-size: .78rem; color: var(--k-txt, #4B5563); margin: 2px 0 6px; }
 .cal-leyenda i { display: inline-block; width: 12px; height: 12px; border-radius: 4px;
     margin-right: 5px; vertical-align: -1px; }
-.cal-elegido { background: #EEF2FF; border-left: 4px solid #0B1F66; border-radius: 8px;
-    padding: 8px 12px; font-size: .88rem; color: #0B1F66; margin-top: 6px; }
+.cal-elegido { background: var(--k-tinte, #EEF2FF); border-left: 4px solid var(--k-oro, #0B1F66); border-radius: 8px;
+    padding: 8px 12px; font-size: .88rem; color: var(--k-txt, #0B1F66); margin-top: 6px; }
 @media (max-width: 640px) {
   .st-key-calendario button { font-size: .66rem; min-height: 38px; }
   .cal-hora { font-size: .62rem; } .cal-dia b { font-size: .68rem; } .cal-dia span { font-size: .6rem; }
@@ -171,7 +172,7 @@ def _calendario():
             rango = f"{lunes.day} al {sabado.day} de {MESES[lunes.month - 1]}"
         else:
             rango = f"{lunes.day} de {MESES[lunes.month - 1]} al {sabado.day} de {MESES[sabado.month - 1]}"
-        n2.markdown(f"<div style='text-align:center;font-weight:600;color:#0B1F66'>Semana del {rango}</div>",
+        n2.markdown(f"<div style='text-align:center;font-weight:600;color:var(--k-titulo, #0B1F66)'>Semana del {rango}</div>",
                     unsafe_allow_html=True)
         if n3.button("Siguiente ›", key="cal_sig", use_container_width=True,
                      disabled=st.session_state.cal_semana >= SEMANAS_MAX):
@@ -179,9 +180,9 @@ def _calendario():
             st.rerun()
 
         st.markdown("<div class='cal-leyenda'>"
-                    "<span><i style='background:#E9F7EF;border:1px solid #BFE5CC'></i>Libre</span>"
-                    "<span><i style='background:#0B1F66'></i>Tu elección</span>"
-                    "<span><i style='background:#F3F4F6;border:1px dashed #D1D5DB'></i>Ocupado o pasado</span>"
+                    "<span><i style='background:var(--k-libre, #E9F7EF);border:1px solid var(--k-libre-b, #BFE5CC)'></i>Libre</span>"
+                    "<span><i style='background:var(--k-btn, #0B1F66)'></i>Tu elección</span>"
+                    "<span><i style='background:var(--k-off, #F3F4F6);border:1px dashed var(--k-borde, #D1D5DB)'></i>Ocupado o pasado</span>"
                     "</div>", unsafe_allow_html=True)
 
         # Cabecera con los días

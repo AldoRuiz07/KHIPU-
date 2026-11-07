@@ -14,12 +14,16 @@ CLARO = dict(
     LINK="#0070F3", BTN="#0B1F66", BTN_H="#162E8F", TITULO="#0B1F66", ORO="#C9A227",
     PAGINA="rgba(255,255,255,.93)", H1="rgba(255,255,255,.97)", H2="rgba(255,255,255,.88)",
     H3="rgba(255,255,255,.28)", FOCO="rgba(0,0,0,.08)", ESQUEMA="light",
+    TINTE="#F2F5FF", TINTE_ORO="#FBF6E6", LIBRE="#E6F6EC", LIBRE_B="#B5E0C4", LIBRE_T="#155C35",
+    OFF="#F1F2F4", OFF_T="#9AA0AB", SEL_T="#FFFFFF",
 )
 OSCURO = dict(
     TXT="#EDEDED", MUTED="#A1A1A1", BORDE="#2C2C31", SURF="#16161A", SURF2="#101013",
     LINK="#6AA5FF", BTN="#1D3FBF", BTN_H="#2A52E0", TITULO="#9DB8FF", ORO="#E0B93A",
     PAGINA="rgba(8,8,10,.92)", H1="rgba(8,8,10,.96)", H2="rgba(8,8,10,.88)",
     H3="rgba(8,8,10,.40)", FOCO="rgba(106,165,255,.25)", ESQUEMA="dark",
+    TINTE="#1A2140", TINTE_ORO="#2A2412", LIBRE="#123322", LIBRE_B="#2C6E47", LIBRE_T="#9BE7B6",
+    OFF="#1C1C21", OFF_T="#6B7080", SEL_T="#FFFFFF",
 )
 
 
@@ -59,6 +63,12 @@ html, body, [class*="css"], .stMarkdown, .stTextInput, .stTextArea, .stButton, .
     color: {TXT}; background-color: {SURF2 if oscuro else "#FFFFFF"}; color-scheme: {p["ESQUEMA"]};
     background-image: linear-gradient({p["PAGINA"]}, {p["PAGINA"]}), url("{FONDO}");
     background-size: cover; background-position: center top; background-attachment: fixed;
+}}
+:root, .stApp {{
+    --k-txt: {TXT}; --k-muted: {MUTED}; --k-borde: {BORDE}; --k-surf: {SURF}; --k-surf2: {SURF2};
+    --k-titulo: {TITULO}; --k-oro: {ORO}; --k-btn: {BTN}; --k-tinte: {p["TINTE"]}; --k-tinte-oro: {p["TINTE_ORO"]};
+    --k-libre: {p["LIBRE"]}; --k-libre-b: {p["LIBRE_B"]}; --k-libre-t: {p["LIBRE_T"]};
+    --k-off: {p["OFF"]}; --k-off-t: {p["OFF_T"]};
 }}
 .block-container {{ padding-top: 1.4rem; max-width: 1080px; }}
 #MainMenu, footer {{ visibility: hidden; }}
@@ -285,6 +295,9 @@ ul[role="listbox"], [data-baseweb="calendar"] {{ background: {SURF} !important; 
 [data-testid="stChatInput"] * {{ background: transparent !important; color: {TXT} !important; }}
 [data-testid="stChatInput"] textarea::placeholder {{ color: {MUTED} !important; }}
 [data-testid="stAlert"], [data-testid="stAlert"] * {{ color: {TXT} !important; }}
+[data-testid="stAlert"] > div, [data-testid="stAlertContainer"] {{ background: {SURF} !important; }}
+input::placeholder, textarea::placeholder {{ color: {MUTED} !important; opacity: 1 !important; }}
+[data-testid="stExpander"] summary:hover * {{ color: {TITULO} !important; }}
 [data-testid="stDataFrame"], [data-testid="stDataEditor"] {{ filter: invert(.92) hue-rotate(180deg); }}
 [data-testid="stFileUploaderDropzone"] {{ background: {SURF}; }}
 [data-testid="stSegmentedControl"] button {{ background: {SURF}; color: {TXT}; border-color: {BORDE}; }}
