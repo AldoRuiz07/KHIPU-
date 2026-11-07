@@ -99,15 +99,15 @@ def contenido(s: dict) -> tuple[str, str]:
   </div></div>"""
     return texto, html
 
-def enviar_codigo(destino: str, nombre: str, codigo6: str):
+def enviar_codigo(destino: str, nombre: str, codigo6: str, para: str = "firmar tu reserva de laboratorio"):
     """Envía el código de verificación de identidad (firma electrónica simple)."""
-    texto = (f"Hola {nombre},\n\nTu código para confirmar la reserva en Khipu es: {codigo6}\n"
+    texto = (f"Hola {nombre},\n\nTu código para {para} en Khipu es: {codigo6}\n"
              "Vence en 10 minutos. Si no fuiste tú, ignora este correo.\n\nKhipu · FIEE-UNMSM")
     html = f"""<div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;color:{NAVY}">
   <div style="background:{NAVY};color:white;padding:16px 20px;border-radius:12px 12px 0 0">
     <b style="font-size:20px">Khipu</b> · verificación de identidad</div>
   <div style="border:1px solid #E3E8F1;border-top:none;padding:20px;border-radius:0 0 12px 12px">
-    <p>Hola <b>{escape(nombre)}</b>, usa este código para firmar tu reserva de laboratorio:</p>
+    <p>Hola <b>{escape(nombre)}</b>, usa este código para {escape(para)}:</p>
     <div style="font-size:34px;font-weight:800;letter-spacing:8px;text-align:center;
                 background:#F2F5FA;border-left:4px solid {AMBAR};padding:14px;border-radius:8px">{codigo6}</div>
     <p style="color:#5B6B82;font-size:13px">Vence en 10 minutos. Si no fuiste tú, ignora este correo:
@@ -128,3 +128,26 @@ def avisar(codigo: str) -> str:
     texto, html = contenido(s)
     _enviar(destino, f"Khipu · {TITULOS.get(s['estado'], 'Solicitud')} · {s['codigo']}", texto, html)
     return destino
+
+
+def avisar_publicacion(p: dict):
+    """Avisa al vendedor si su publicación fue aprobada o rechazada."""
+    if not configurado():
+        raise RuntimeError("el envío de correos no está configurado")
+    aprobada = p["estado"] == "publicada"
+    titulo = "✅ Tu publicación ya está visible en Khipu" if aprobada else "❌ Tu publicación no fue aprobada"
+    detalle = (f"Para marcarla como vendida usa este código en Khipu → Compra y venta → "
+               f"Mis publicaciones: {p['codigo']}") if aprobada else "Puedes corregirla y publicar de nuevo."
+    nota = f"Nota del encargado: {p['nota']}" if p.get("nota") else ""
+    texto = (f"Hola {p['nombre']},\n\n{titulo}\n\n{p['titulo']} · {p['cantidad']} unid. · "
+             f"S/ {p['precio']:.2f}\n{nota}\n{detalle}\n\nKhipu · FIEE-UNMSM")
+    html = f"""<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:{NAVY}">
+  <div style="background:{NAVY};color:white;padding:16px 20px;border-radius:12px 12px 0 0">
+    <b style="font-size:20px">Khipu</b> · Compra y venta</div>
+  <div style="border:1px solid #E3E8F1;border-top:none;padding:20px;border-radius:0 0 12px 12px">
+    <p>Hola <b>{escape(p['nombre'])}</b>,</p><h3 style="margin:4px 0 12px">{escape(titulo)}</h3>
+    <p><b>{escape(p['titulo'])}</b> · {p['cantidad']} unid. · S/ {p['precio']:.2f}</p>
+    {f"<p style='background:#FFF6E0;padding:10px;border-radius:8px'>{escape(nota)}</p>" if nota else ""}
+    <div style="background:#F2F5FA;border-left:4px solid {AMBAR};padding:12px 14px;border-radius:8px">
+      {escape(detalle)}</div></div></div>"""
+    _enviar(p["correo"], f"Khipu · {titulo} · {p['codigo']}", texto, html)

@@ -1,12 +1,13 @@
 """app.py - arma la página: encabezado, modo Estudiante/Encargado y pestañas (dueño: P3).
 Ejecutar con: streamlit run app.py"""
 import streamlit as st
-import db, lista, estilo, ui_chat, ui_proyecto, ui_laboratorio, ui_encargado
+import db, lista, estilo, ventas, ui_chat, ui_proyecto, ui_laboratorio, ui_ventas, ui_encargado
 
 st.set_page_config(page_title="Khipu - Almacén FIEE", page_icon="assets/icono.png",
                    layout="wide")
 estilo.aplicar()
 db.iniciar()
+ventas.iniciar()
 if "mi_lista" not in st.session_state:
     st.session_state.mi_lista = []                  # compartida por todas las pestañas
 if "aviso" in st.session_state:
@@ -48,8 +49,8 @@ with st.sidebar:                                    # Mi lista
     if st.session_state.mi_lista:
         st.info("Resérvalos en la pestaña **🔬 Laboratorio**.")
 
-pestanas = st.tabs(["💬 Preguntar", "📋 Mi proyecto", "🔬 Laboratorio"])
-for pestana, modulo in zip(pestanas, [ui_chat, ui_proyecto, ui_laboratorio]):
+pestanas = st.tabs(["💬 Preguntar", "📋 Mi proyecto", "🔬 Laboratorio", "🤝 Compra y venta"])
+for pestana, modulo in zip(pestanas, [ui_chat, ui_proyecto, ui_laboratorio, ui_ventas]):
     with pestana:
         modulo.mostrar()
 
