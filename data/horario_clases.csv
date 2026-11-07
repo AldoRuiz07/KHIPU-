@@ -1,20 +1,26 @@
 laboratorio,dia,inicio,fin,curso
-LAB-A,lunes,08:00,10:00,Circuitos Eléctricos I
-LAB-A,lunes,18:00,20:00,Electrónica de Potencia
-LAB-A,miercoles,14:00,16:00,Circuitos Eléctricos II
-LAB-A,miercoles,20:00,22:00,Laboratorio de Conversión de Energía
-LAB-A,viernes,16:00,18:00,Control Automático I
-LAB-B,lunes,10:00,12:00,Electrónica I
-LAB-B,martes,14:00,16:00,Comunicaciones Digitales
-LAB-B,miercoles,18:00,20:00,Líneas de Transmisión y Antenas
-LAB-B,jueves,14:00,18:00,Electrónica II
-LAB-B,viernes,08:00,10:00,Teoría Electromagnética
-LAB-C,martes,08:00,12:00,Sistemas Digitales
-LAB-C,miercoles,16:00,18:00,Arquitectura de Computadores
-LAB-C,jueves,18:00,22:00,Diseño Digital Avanzado
-LAB-C,viernes,14:00,16:00,Sistemas Digitales
-LAB-D,lunes,14:00,18:00,Automatización Industrial y PLCs
-LAB-D,martes,18:00,20:00,Instrumentación Virtual
-LAB-D,miercoles,10:00,12:00,Microcontroladores
-LAB-D,jueves,08:00,10:00,Robótica Móvil
-LAB-D,sabado,08:00,12:00,Taller de Proyectos
+LAB-A,Lunes,08:00,10:00,Circuitos Eléctricos I
+LAB-A,Lunes,18:00,20:00,Electrónica de Potencia
+LAB-A,Miércoles,14:00,16:00,Circuitos Eléctricos II
+LAB-A,Miércoles,20:00,22:00,Laboratorio de Conversión de Energía
+LAB-A,Viernes,16:00,18:00,Control Automático I
+LAB-B,Lunes,10:00,12:00,Electrónica I
+LAB-B,Martes,14:00,16:00,Comunicaciones Digitales
+LAB-B,Miércoles,18:00,20:00,Líneas de Transmisión y Antenas
+LAB-B,Jueves,14:00,18:00,Electrónica II
+LAB-B,Viernes,08:00,10:00,Teoría Electromagnética
+LAB-C,Martes,08:00,12:00,Sistemas Digitales
+LAB-C,Miércoles,16:00,18:00,Arquitectura de Computadores
+LAB-C,Jueves,18:00,22:00,Diseño Digital Avanzado
+LAB-C,Viernes,14:00,16:00,Sistemas Digitales
+LAB-D,Lunes,14:00,18:00,Automatización Industrial y PLCs
+LAB-D,Martes,18:00,20:00,Instrumentación Virtual
+LAB-D,Miércoles,10:00,12:00,Microcontroladores
+LAB-D,Jueves,08:00,10:00,Robótica Móvil
+LAB-D,Sábado,08:00,12:00,Taller de Proyectos
+LAB-E,Lunes,10:00,14:00,Redes de Computadoras
+LAB-E,Miércoles,14:00,18:00,Sistemas de Radiocomunicaciones
+LAB-E,Viernes,18:00,22:00,Telefonía IP y VoIP
+LAB-F,Martes,14:00,18:00,Procesamiento Digital de Señales
+LAB-F,Jueves,14:00,18:00,Teoría de Control Moderno
+LAB-F,Sábado,14:00,18:00,Inteligencia Artificial en Ingeniería
