@@ -14,7 +14,8 @@ if "aviso" in st.session_state:
 
 # ---- Barra superior: logo + selector de modo (arriba a la derecha)
 izq, der = st.columns([3, 1.3], vertical_alignment="center")
-izq.image("assets/logo.png", width=230)
+with izq:
+    estilo.barra_institucional()                     # logos UNMSM + FIEE
 modo = der.segmented_control("Modo", ["🎓 Estudiante", "🔐 Encargado"],
                              default="🎓 Estudiante", label_visibility="collapsed",
                              key="modo") or "🎓 Estudiante"
@@ -24,6 +25,7 @@ if modo == "🔐 Encargado":
     estilo.encabezado("Panel del encargado",
                       "Solicitudes de laboratorio, inventario, laboratorios y demanda en tiempo real.")
     ui_encargado.mostrar()
+    estilo.pie()
     st.stop()
 
 # ================================================================ MODO ESTUDIANTE
@@ -50,3 +52,5 @@ pestanas = st.tabs(["💬 Preguntar", "📋 Mi proyecto", "🔬 Laboratorio"])
 for pestana, modulo in zip(pestanas, [ui_chat, ui_proyecto, ui_laboratorio]):
     with pestana:
         modulo.mostrar()
+
+estilo.pie()
