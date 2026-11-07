@@ -6,12 +6,18 @@
 
 ![Hackathon](https://img.shields.io/badge/ENEISOFT_2026-XVI_edición-0B1F3A?style=for-the-badge)
 ![Eje](https://img.shields.io/badge/Gestión_universitaria-IA_aplicada-1E6BFF?style=for-the-badge)
-![Estado](https://img.shields.io/badge/estado-MVP_en_desarrollo-FFB000?style=for-the-badge)
+![Estado](https://img.shields.io/badge/estado-MVP_funcionando-1B8A4B?style=for-the-badge)
 
 ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
 ![Gemini](https://img.shields.io/badge/Google_Gemini-8E75B2?logo=googlegemini&logoColor=white)
+
+<br>
+
+[![Abrir Khipu](https://img.shields.io/badge/▶_ABRIR_KHIPU-khipu--fiee.streamlit.app-FFB000?style=for-the-badge&labelColor=0B1F3A)](https://khipu-fiee.streamlit.app)
+
+**Pruébalo ahora, sin instalar nada (celular o PC): [khipu-fiee.streamlit.app](https://khipu-fiee.streamlit.app)**
 
 </div>
 
@@ -19,16 +25,29 @@
 
 ## 📑 Contenido
 
+- [Pruébalo en 1 minuto](#-pruébalo-en-1-minuto)
 - [¿Por qué "Khipu"?](#-por-qué-khipu)
 - [Contexto: la FIEE y su almacén](#-contexto-la-fiee-y-su-almacén)
 - [La problemática](#-la-problemática)
 - [Nuestra propuesta](#-nuestra-propuesta)
 - [Qué hace el aplicativo](#-qué-hace-el-aplicativo)
 - [Cómo usamos la IA](#-cómo-usamos-la-ia)
+- [Seguridad y confianza](#-seguridad-y-confianza)
 - [Arquitectura](#-arquitectura)
 - [Hoja de ruta](#-hoja-de-ruta)
 - [Cómo ejecutarlo](#-cómo-ejecutarlo)
 - [Quiénes somos](#-quiénes-somos)
+
+---
+
+## 🚀 Pruébalo en 1 minuto
+
+1. Entra a **[khipu-fiee.streamlit.app](https://khipu-fiee.streamlit.app)** desde tu celular o tu PC.
+   *Si la app estuvo un rato sin uso, Streamlit la "despierta" en unos segundos.*
+2. En **💬 Preguntar** escribe *"¿Hay 2N2222? necesito 2, agrégalo"* o sube la **foto** de un componente o el **PDF** de tu guía.
+3. En **📋 Mi proyecto** escribe *"robot seguidor de línea con Arduino"* → **Agregar a Mi lista**.
+4. En **🔬 Laboratorio** elige fecha y horario, pon los datos del grupo (el líder con su correo `@unmsm.edu.pe`), **firma con el código** que te llega al correo y listo.
+5. Arriba a la derecha cambia a **🔐 Encargado** para ver cómo llega la solicitud y aceptarla *(la clave la proporciona el equipo)*.
 
 ---
 
@@ -86,7 +105,9 @@ flowchart LR
     C{"¿Hay stock<br/>en la FIEE?"} -- Sí --> D["🛒 Mi lista"]
     C -- No --> E["🔁 Equivalente<br/>disponible"] --> D
     D --> F["🔬 Reservo laboratorio<br/>(2 h) + componentes"]
-    F --> G["🔐 El encargado<br/>acepta o rechaza"]
+    F --> H["🔏 Firmo con código<br/>al correo institucional"]
+    H --> G["🔐 El encargado<br/>acepta o rechaza"]
+    G --> I["📧 Me llega el aviso<br/>por correo"]
 ```
 
 En la FIEE los componentes **solo se usan dentro de un laboratorio**. Por eso Khipu une ambas cosas: lo que el chat o tu proyecto te recomiendan se guarda en **Mi lista**, y al reservar el laboratorio esos componentes ya están cargados. **No tienes que volver a preguntar ni anotar nada.**
@@ -98,7 +119,7 @@ En la FIEE los componentes **solo se usan dentro de un laboratorio**. Por eso Kh
 
 ## 📱 Qué hace el aplicativo
 
-El aplicativo tiene **4 pestañas** y una barra lateral con **🛒 Mi lista**.
+Arriba a la derecha se elige el modo: **🎓 Estudiante** (3 pestañas y la barra lateral **🛒 Mi lista**) o **🔐 Encargado** (panel con clave). Las pestañas tienen forma de *khipu*: un cordón con un nudo por pestaña.
 
 ### 1. 💬 Preguntar: chat con texto, fotos y PDFs
 Un chat al que le escribes como a un compañero, y al que también le puedes **adjuntar archivos**:
@@ -108,6 +129,7 @@ Un chat al que le escribes como a un compañero, y al que también le puedes **a
 | ✍️ *"¿Hay LM358?"* · *"Necesito 2 transistores 2N2222"* | Responde con **stock real y ubicación**. Si no hay, propone **equivalentes verificados** con sus advertencias (*"pinout distinto"*). |
 | 📷 Una **foto** del componente (desde la cámara del celular) | Lo **identifica** por su encapsulado y marcas, indica su **nivel de confianza** y te dice si hay en el almacén. |
 | 📄 El **PDF** de tu guía o informe | Resume qué se hace, lista **qué componentes necesitas**, revisa si están en la facultad y te da **tips clave**, sin que tengas que leer todo antes de clase. |
+| 🔬 *"¿Hay laboratorio libre el lunes de 2 a 4?"* | Consulta los **horarios reales** y responde qué laboratorios están libres y por qué los otros están ocupados (clase o reserva). |
 
 Si le dices *"agrégalo"*, lo guarda en **Mi lista**. Khipu **nunca inventa stock**: si algo no está en el inventario, lo dice. El historial del chat se mantiene mientras usas la app.
 
@@ -124,18 +146,21 @@ Describe el proyecto que tienes en mente (*"robot seguidor de línea con Arduino
 ### 3. 🔬 Laboratorio: reserva la sala y tus componentes
 1. Eliges la **fecha** y la **franja de 2 horas** (por ejemplo, *2:00–4:00 p. m.*).
 2. Ves los laboratorios: los ocupados por clases u otras reservas aparecen ~~tachados~~.
-3. Escribes el motivo y los datos de los estudiantes (**mínimo 2**, con código y correo `@unmsm.edu.pe`).
+3. Escribes el motivo y los datos del grupo (**mínimo 2 estudiantes**). El de la **fila 1 es el líder** y pone su correo `@unmsm.edu.pe`.
 4. Los componentes de **Mi lista** ya aparecen cargados, con lo **disponible en esa franja**.
-5. Envías y recibes un código `LAB-XXXX` para consultar el estado: ⏳ pendiente · ✅ aceptada · ❌ rechazada.
+5. **Firmas la solicitud:** te llega un **código de 6 dígitos** al correo institucional del líder; lo escribes y recién ahí se guarda (ver [Seguridad](#-seguridad-y-confianza)).
+6. Recibes el código `LAB-XXXX`, un **comprobante descargable** y un **correo de confirmación** con laboratorio, fecha, hora, componentes y sello digital.
 
-Sin formatos a mano ni correos: la solicitud llega directo al encargado.
+**¿Cerraste la página?** En *Consultar mi solicitud* escribe tu **código de alumno** y verás **todas tus reservas** con su estado: ⏳ pendiente · ✅ aceptada · ❌ rechazada · 🏁 finalizada. Cuando el encargado decide, **te llega un correo**.
+
+Sin formatos a mano ni idas a la jefatura: la solicitud firmada llega directo al encargado.
 
 ### 4. 🔐 Encargado: panel con clave
-Solo accede el personal con la clave:
+Se entra desde el selector **🔐 Encargado** (arriba a la derecha). Arriba ve contadores **⏳ Pendientes · ✅ Aceptadas · 🔴 Agotados** que **se actualizan solos cada 5 segundos**; si llega una solicitud nueva, aparece un aviso 🔔.
 
 | Sección | Qué puede hacer |
 |---|---|
-| **Solicitudes** | Ver cada solicitud (laboratorio, horario, motivo, estudiantes y componentes), **aceptarla o rechazarla** con una nota, y marcarla como finalizada. |
+| **Solicitudes** | Ver cada solicitud (laboratorio, horario, motivo, estudiantes, componentes) con su **🔏 firma verificada**, **aceptarla o rechazarla** con una nota (el líder recibe un correo) y marcarla como finalizada. |
 | **Componentes** | **Actualizar el inventario**: agregar, editar o quitar componentes y su stock. |
 | **Laboratorios** | Editar los laboratorios y el **horario de clases**, que bloquea esas franjas cada semana. |
 | **Demanda** | Ver lo más pedido y lo agotado, para **planificar compras** del siguiente ciclo. |
@@ -148,7 +173,7 @@ No entrenamos modelos propios: **aplicamos modelos existentes a un problema real
 
 | Función | Técnica | Por qué es confiable |
 |---|---|---|
-| Chat de disponibilidad | **LLM con *tool use*** (function calling) | El modelo no conoce el stock: debe consultarlo llamando a funciones de nuestra base de datos. También usa una herramienta para agregar a Mi lista. |
+| Chat de disponibilidad | **Agente LLM con *tool use*** (function calling) | El modelo no conoce el stock ni los horarios: los consulta con 4 herramientas (`buscar_en_almacen`, `ver_equivalentes`, `ver_laboratorios_libres`, `agregar_a_mi_lista`) que leen nuestra base de datos. |
 | Proyecto → lista | **LLM con salida estructurada (JSON)** | El cruce con el stock y los equivalentes lo hace Python de forma determinista y auditable. |
 | Fotos y PDFs en el chat | **Modelo multimodal**: lee imágenes y documentos dentro de la misma conversación | Identifica con nivel de confianza y siempre verifica en el inventario. |
 | Robustez | **Cambio automático de modelo** | Si un modelo está saturado o sin cuota, pasa al siguiente sin perder la conversación. |
@@ -170,6 +195,20 @@ sequenceDiagram
 
 ---
 
+## 🔐 Seguridad y confianza
+
+| Riesgo | Cómo lo resuelve Khipu |
+|---|---|
+| **Suplantación:** alguien reserva con el nombre y código de otro alumno | **Firma electrónica simple:** antes de guardar, se envía un **código de 6 dígitos al correo `@unmsm.edu.pe` del líder** (vence en 10 min, máximo 5 intentos). Solo quien controla ese correo institucional puede reservar a su nombre. |
+| **Alteración de datos** | Cada solicitud se **sella con una huella SHA-256** de sus datos y de la verificación. El encargado ve **🔏 Firma válida**; si algo se modifica, aparece **⚠️ el sello no coincide**. |
+| **La IA inventa stock** | La IA no tiene el inventario en la memoria: solo puede leerlo con funciones. Las validaciones (franjas, stock por franja, mínimo 2 estudiantes) son **deterministas**, en Python. |
+| **Acceso al panel** | El modo Encargado pide una clave guardada como *secret* del servidor, no en el código. |
+| **Pérdida del código de reserva** | Comprobante descargable, correo de confirmación y búsqueda por código de alumno. |
+
+> En producción, la firma evoluciona a **inicio de sesión institucional** y **firma digital con DNIe (RENIEC)**.
+
+---
+
 ## 🏗️ Arquitectura
 
 ```mermaid
@@ -186,21 +225,24 @@ flowchart TB
         IP[ia_proyecto · idea → JSON]
     end
     subgraph DATOS["Datos · SQLite"]
-        DB[(componentes · equivalencias<br/>laboratorios · horarios · solicitudes)]
+        DB[(componentes · equivalencias<br/>laboratorios · horarios<br/>solicitudes firmadas)]
     end
     P --> CH
     PR --> IP
     CH & IP --> GEM[Google Gemini API]
     CH & PR --> ML --> L
     CH & IP & L & EN --> DB
+    L & EN --> MAIL[📧 Correo: código de firma,<br/>confirmación y avisos]
 ```
 
 | Tecnología | Uso |
 |---|---|
 | **Python + Streamlit** | Aplicativo web responsivo, sin instalación para el usuario |
+| **Streamlit Community Cloud** | Publicación en internet: todos usan el mismo servidor y ven los cambios en tiempo real |
 | **SQLite** | Inventario, equivalencias, reservas, consultas |
 | **Google Gemini API** | Chat con herramientas, salida estructurada, visión |
 | **pandas** | Tablas y reportes |
+| **SMTP (Gmail) + SHA-256** | Código de firma, correos de confirmación y sello digital |
 
 ---
 
@@ -208,33 +250,48 @@ flowchart TB
 
 | Estado | Funcionalidad |
 |:-:|---|
-| ✅ MVP | Chat de disponibilidad conectado al inventario, con equivalentes |
-| ✅ MVP | Mi proyecto: idea → lista de componentes con equivalentes y tips |
-| ✅ MVP | Reserva de laboratorio por franja de 2 h con componentes |
-| 🚧 En desarrollo | Fotos y PDFs en el chat · Mi lista compartida entre pestañas |
-| 🚧 En desarrollo | Panel del encargado: aceptar/rechazar y actualizar inventario y laboratorios |
-| 🔭 Visión | Inicio de sesión con correo institucional `@unmsm.edu.pe` |
-| 🔭 Visión | Notificaciones por correo cuando la solicitud se acepta o se rechaza |
+| ✅ Listo | Chat conectado al inventario, con equivalentes, fotos, PDFs y consulta de laboratorios libres |
+| ✅ Listo | Mi proyecto: idea → lista de componentes con equivalentes y tips |
+| ✅ Listo | Mi lista compartida entre pestañas |
+| ✅ Listo | Reserva de laboratorio por franja de 2 h con componentes y stock por franja |
+| ✅ Listo | Firma electrónica simple (código al correo institucional) y sello SHA-256 |
+| ✅ Listo | Comprobante descargable, correo de confirmación y avisos de aceptación o rechazo |
+| ✅ Listo | Panel del encargado en tiempo real: solicitudes, inventario, laboratorios y demanda |
+| ✅ Listo | Publicado en internet: [khipu-fiee.streamlit.app](https://khipu-fiee.streamlit.app) |
+| 🔭 Visión | Inicio de sesión con la cuenta institucional `@unmsm.edu.pe` |
+| 🔭 Visión | Firma digital con DNIe (RENIEC) |
+| 🔭 Visión | Base de datos en la nube (PostgreSQL) para que los datos persistan entre reinicios |
 | 🔭 Visión | Foro de proyectos y dudas entre estudiantes |
 | 🔭 Visión | Inventario real del almacén y escalamiento a otros laboratorios y facultades |
 
-> Durante la hackathon se usa un **inventario de ejemplo** con 62 componentes típicos de los cursos de la FIEE. Para usar el inventario real basta con reemplazar un archivo CSV.
+> Durante la hackathon se usa un **inventario de ejemplo** con **91 componentes e instrumentos** típicos de los cursos de la FIEE, y **laboratorios y horarios de ejemplo**. Para usar los datos reales basta con reemplazar los CSV de `data/` o editarlos desde el panel del encargado.
 
 ---
 
 ## ▶️ Cómo ejecutarlo
 
+**Para usarlo:** no hace falta instalar nada → **[khipu-fiee.streamlit.app](https://khipu-fiee.streamlit.app)**
+
+**Para desarrollarlo en tu computadora:**
+
 ```bash
-git clone https://github.com/<usuario>/khipu.git
-cd khipu
+git clone https://github.com/AldoRuiz07/KHIPU-.git
+cd KHIPU-
 python -m venv .venv
 .venv\Scripts\activate            # Windows  ·  Mac/Linux: source .venv/bin/activate
 pip install -r requirements.txt
-copy .env.ejemplo .env            # pega tu clave de Gemini en .env
+copy .env.ejemplo .env            # Mac/Linux: cp .env.ejemplo .env
 streamlit run app.py
 ```
 
-Obtén una clave gratuita en [Google AI Studio](https://aistudio.google.com). En `.env`, `MODELOS` es la lista de modelos en orden de preferencia, separados por comas.
+Configura tu `.env` (en Streamlit Cloud, lo mismo va en **Secrets**):
+
+| Variable | Para qué |
+|---|---|
+| `GEMINI_API_KEY` | Clave gratuita de [Google AI Studio](https://aistudio.google.com) |
+| `MODELOS` | Modelos en orden de preferencia, separados por comas; si uno se satura, pasa al siguiente |
+| `CLAVE_ENCARGADO` | Clave del panel del encargado |
+| `CORREO_REMITENTE` · `CORREO_CLAVE` | Cuenta Gmail y su *contraseña de aplicación* para enviar los correos |
 
 ---
 
@@ -244,9 +301,9 @@ Somos estudiantes de **Ingeniería Electrónica de la UNMSM**. Vivimos el proble
 
 | | Integrante | Rol |
 |:-:|---|---|
-| 🔧 | **KARLA MONTES** | Base de datos y pestaña Laboratorio: franjas, ocupación, solicitudes |
-| 🤖 | **ALDO RUIZ** | Pestaña Preguntar: chat con *tool use*, fotos y PDFs, cambio automático de modelo, equivalencias |
-| 🎨 | **ERIK ESPINEL** | Interfaz y Mi lista, pestaña Mi proyecto, panel del Encargado, publicación |
+| 🔧 | **KARLA MONTES** | Base de datos, pestaña Laboratorio: franjas, ocupación, solicitudes, firma y comprobantes |
+| 🤖 | **ALDO RUIZ** | Pestaña Preguntar: agente con *tool use*, fotos, PDFs y laboratorios libres; cambio automático de modelo; equivalencias; documentación |
+| 🎨 | **ERIK ESPINEL** | Interfaz y diseño khipu, Mi lista, pestaña Mi proyecto, panel del encargado en tiempo real, publicación en Streamlit Cloud |
 
 <div align="center">
 
