@@ -39,11 +39,11 @@ def _ver():
                     st.write(p["descripcion"])
                 asunto = quote(f"Khipu: {p['titulo']}")
                 c1, c2 = st.columns(2)
-                c1.link_button("✉️ Correo", f"mailto:{p['correo']}?subject={asunto}",
+                c1.link_button("Correo", f"mailto:{p['correo']}?subject={asunto}",
                                use_container_width=True)
                 if p["whatsapp"]:
                     msg = quote(f"Hola {p['nombre']}, vi tu publicación en Khipu: {p['titulo']}")
-                    c2.link_button("💬 WhatsApp", f"https://wa.me/51{p['whatsapp']}?text={msg}",
+                    c2.link_button("WhatsApp", f"https://wa.me/51{p['whatsapp']}?text={msg}",
                                    use_container_width=True)
     st.caption("Khipu solo publica los avisos: el trato es entre estudiantes. "
                "Recomendamos hacer la entrega dentro de la universidad.")
@@ -52,7 +52,7 @@ def _ver():
 # ------------------------------------------------------------------ publicar
 def _publicar():
     if st.session_state.get("pub_creada"):
-        st.success(f"¡Listo! Tu publicación **{st.session_state.pub_creada}** quedó registrada. "
+        st.success(f"Tu publicación **{st.session_state.pub_creada}** quedó registrada. "
                    "El encargado la revisará y te avisaremos por correo cuando esté visible.")
         if st.button("Publicar otra cosa"):
             st.session_state.pop("pub_creada"); st.rerun()
@@ -125,7 +125,7 @@ def _enviar_codigo() -> bool:
 
 def _paso_firma():
     f = st.session_state.pub_firma
-    st.markdown("### 🔏 Confirma tu publicación")
+    st.markdown("### Verificación de identidad")
     st.write(f"Te enviamos un código de 6 dígitos a **{f['datos']['correo']}**.")
     if f.get("demo"):
         st.warning(f"Modo demostración (no se pudo enviar el correo): el código es **{f['demo']}**")
@@ -147,7 +147,7 @@ def _paso_firma():
                                   verificacion=f"Correo {f['datos']['correo']} verificado el {ahora}")
             st.session_state.pop("pub_firma")
             st.session_state.pub_creada = codigo
-            st.session_state.aviso = "📢 Publicación enviada al encargado"
+            st.session_state.aviso = "Publicación enviada para revisión"
             st.rerun()
     if c2.button("Reenviar código", key="v_reenviar"):
         if _enviar_codigo():
@@ -158,8 +158,8 @@ def _paso_firma():
 
 
 # ------------------------------------------------------------------ mis publicaciones
-ICONO = {"pendiente": "⏳ En revisión", "publicada": "✅ Publicada",
-         "rechazada": "❌ Rechazada", "vendida": "🏁 Vendida"}
+ICONO = {"pendiente": "En revisión", "publicada": "Publicada",
+         "rechazada": "Rechazada", "vendida": "Vendida"}
 
 
 def _mis_publicaciones():
@@ -181,6 +181,6 @@ def _mis_publicaciones():
     cod_pub = c1.text_input("Código de la publicación (te llegó por correo, PUB-XXXX)", key="v_pub")
     if c2.button("Marcar como vendida"):
         if ventas.marcar_vendida(cod_pub, codigo_alumno):
-            st.success("¡Bien! La quitamos de la lista.")
+            st.success("La publicación se marcó como vendida.")
         else:
             st.error("Revisa el código: debe ser una publicación tuya y que esté publicada.")

@@ -31,6 +31,12 @@ html, body, [class*="css"], .stMarkdown, .stTextInput, .stTextArea, .stButton, .
     font-family: 'Geist', -apple-system, 'Segoe UI', Inter, sans-serif !important;
     -webkit-font-smoothing: antialiased;
 }}
+/* Los íconos de Streamlit usan su propia fuente: si se reemplaza, aparecen como texto */
+[data-testid="stIconMaterial"], span[class*="material-symbols"], .material-icons,
+[data-testid="stExpanderToggleIcon"], [data-testid="stSidebarCollapseButton"] span,
+[data-testid="stSidebarCollapsedControl"] span {{
+    font-family: 'Material Symbols Rounded' !important;
+}}
 .stApp {{
     color: {NEGRO}; background-color: #FFFFFF;
     background-image: linear-gradient(rgba(255,255,255,.93), rgba(255,255,255,.93)), url("{FONDO}");

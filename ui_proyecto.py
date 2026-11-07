@@ -13,7 +13,7 @@ def mostrar():
         if not idea.strip():
             st.warning("Describe tu proyecto primero.")
         else:
-            with st.spinner("Pensando el proyecto y revisando el stock..."):
+            with st.spinner("Analizando el proyecto y revisando el stock..."):
                 try:
                     datos = ia_proyecto.proyecto_a_bom(idea)
                     st.session_state.bom = bom.cruzar_bom(datos["componentes"])

@@ -17,7 +17,7 @@ def mostrar():
             if m.get("imagen"):
                 st.image(m["imagen"], width=220)
             if m.get("archivo"):
-                st.caption(f"📄 {m['archivo']}")
+                st.caption(f"Archivo adjunto: {m['archivo']}")
             st.markdown(m["texto"])
 
     entrada = st.chat_input("Ej: ¿hay LM358? · ¿qué uso si no hay 2N2222?",
@@ -39,7 +39,7 @@ def mostrar():
         if msg.get("imagen"):
             st.image(msg["imagen"], width=220)
         if msg.get("archivo"):
-            st.caption(f"📄 {msg['archivo']}")
+            st.caption(f"Archivo adjunto: {msg['archivo']}")
         st.markdown(texto)
     with st.chat_message("assistant"):
         with st.spinner("Revisando el almacén..."):

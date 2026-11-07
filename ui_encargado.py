@@ -9,7 +9,7 @@ from config_ia import valor
 def mostrar():
     clave = st.text_input("Clave del encargado", type="password", key="clave_enc")
     if clave != valor("CLAVE_ENCARGADO", "fiee2026"):
-        st.info("🔐 Solo para el encargado de almacén y laboratorios.")
+        st.info("Acceso restringido al encargado del almacén y los laboratorios.")
         return
     _resumen_en_vivo()
     sol, pub, comp, labs, dem = st.tabs(["Solicitudes", "Publicaciones", "Componentes",
@@ -37,12 +37,12 @@ def _resumen_en_vivo():
     antes = st.session_state.get("pendientes_vistos")
     st.session_state.pendientes_vistos = pendientes + por_revisar
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("⏳ Solicitudes pendientes", pendientes)
-    c2.metric("📢 Publicaciones por revisar", por_revisar)
-    c3.metric("✅ Aceptadas", len(db.listar_solicitudes("aceptada")))
-    c4.metric("🔴 Agotados", len(db.demanda()["agotados"]))
+    c1.metric("Solicitudes pendientes", pendientes)
+    c2.metric("Publicaciones por revisar", por_revisar)
+    c3.metric("Solicitudes aceptadas", len(db.listar_solicitudes("aceptada")))
+    c4.metric("Componentes agotados", len(db.demanda()["agotados"]))
     if antes is not None and pendientes + por_revisar > antes:
-        st.session_state.aviso = "🔔 Llegó algo nuevo para revisar"
+        st.session_state.aviso = "Hay nuevos elementos por revisar"
         st.rerun()                                  # actualiza la lista de solicitudes
 
 
@@ -57,9 +57,9 @@ def _solicitudes():
             st.write(f"**Motivo:** {s['motivo']}")
             if s.get("huella"):
                 if db.huella_valida(s):
-                    st.success(f"🔏 Firma válida · {s.get('verificacion')} · sello `{s['huella'][:16]}…`")
+                    st.success(f"Firma válida · {s.get('verificacion')} · sello `{s['huella'][:16]}…`")
                 else:
-                    st.error("⚠️ El sello digital NO coincide: los datos fueron alterados.")
+                    st.error("El sello digital no coincide: los datos de la solicitud fueron alterados.")
             else:
                 st.warning("Sin firma: solicitud no verificada.")
             st.dataframe(pd.DataFrame(s["estudiantes"]), hide_index=True)
@@ -70,14 +70,14 @@ def _solicitudes():
                 db.cambiar_estado(s["codigo"], "aceptada", nota); _avisar(s["codigo"]); st.rerun()
             if estado == "pendiente" and c2.button("Rechazar", key=f"r_{s['codigo']}"):
                 db.cambiar_estado(s["codigo"], "rechazada", nota); _avisar(s["codigo"]); st.rerun()
-            if estado == "aceptada" and c3.button("Finalizada", key=f"f_{s['codigo']}"):
+            if estado == "aceptada" and c3.button("Marcar como finalizada", key=f"f_{s['codigo']}"):
                 db.cambiar_estado(s["codigo"], "finalizada", nota); st.rerun()
 
 
 def _avisar(codigo: str):
     """Avisa al líder por correo que su solicitud cambió de estado."""
     try:
-        st.session_state.aviso = f"📧 Avisamos por correo a {correo.avisar(codigo)}"
+        st.session_state.aviso = f"Se notificó por correo a {correo.avisar(codigo)}"
     except Exception as e:
         st.session_state.aviso = f"Estado actualizado (sin correo: {e})"
 
@@ -98,15 +98,15 @@ def _publicaciones():
             c2.caption(f"{p['nombre']} · {p['codigo_alumno']} · {p['correo']}"
                        + (f" · WhatsApp {p['whatsapp']}" if p["whatsapp"] else ""))
             if ventas.huella_valida(p):
-                c2.success(f"🔏 {p['verificacion']}")
+                c2.success(f"Identidad verificada · {p['verificacion']}")
             else:
-                c2.error("⚠️ Publicación sin verificar o alterada.")
+                c2.error("Publicación sin verificar o con datos alterados.")
             if estado == "pendiente":
                 nota = st.text_input("Nota para el estudiante (opcional)", key=f"pnota_{p['codigo']}")
                 b1, b2 = st.columns(2)
-                if b1.button("✅ Aprobar y publicar", key=f"pa_{p['codigo']}"):
+                if b1.button("Aprobar y publicar", key=f"pa_{p['codigo']}"):
                     _decidir(p["codigo"], "publicada", nota)
-                if b2.button("❌ Rechazar", key=f"pr_{p['codigo']}"):
+                if b2.button("Rechazar", key=f"pr_{p['codigo']}"):
                     _decidir(p["codigo"], "rechazada", nota)
             elif estado == "publicada" and st.button("Quitar de la lista", key=f"pq_{p['codigo']}"):
                 _decidir(p["codigo"], "rechazada", "Retirada por el encargado")
@@ -116,7 +116,7 @@ def _decidir(codigo: str, estado: str, nota: str):
     ventas.cambiar_estado(codigo, estado, nota)
     try:
         correo.avisar_publicacion(ventas.obtener(codigo))
-        st.session_state.aviso = "📧 Avisamos al estudiante por correo"
+        st.session_state.aviso = "Se notificó al estudiante por correo"
     except Exception as e:
         st.session_state.aviso = f"Estado actualizado (sin correo: {e})"
     st.rerun()
