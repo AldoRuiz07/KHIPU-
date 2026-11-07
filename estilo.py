@@ -47,7 +47,7 @@ def _css(oscuro: bool) -> str:
     LINK, BTN, BTN_H, TITULO, ORO = p["LINK"], p["BTN"], p["BTN_H"], p["TITULO"], p["ORO"]
     base = f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&family=Unbounded:wght@700;800&display=swap');
 html, body, [class*="css"], .stMarkdown, .stTextInput, .stTextArea, .stButton, .stTabs,
 [data-testid="stSidebar"], button, input, textarea, select {{
     font-family: 'Geist', -apple-system, 'Segoe UI', Inter, sans-serif !important;
@@ -307,6 +307,11 @@ label, [data-testid="stWidgetLabel"] p {{ font-size: .95rem !important; }}
 .stTabs [data-baseweb="tab"] p {{ font-size: 1rem; }}
 .khipu-pie {{ font-size: .88rem; }}
 .khipu-pasos span {{ font-size: .9rem; }}
+.khipu-hero h1.logo {{
+    font-family: 'Unbounded', 'Geist', sans-serif !important; font-weight: 800;
+    font-size: clamp(2.6rem, 7vw, 4.6rem); letter-spacing: .06em; line-height: 1;
+    color: {TITULO};
+}}
 .khipu-marca {{
     font-size: .9rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
     color: {ORO}; margin-bottom: 10px;
@@ -381,7 +386,7 @@ def aplicar(oscuro: bool | None = None):
 def encabezado(titulo: str, subtitulo: str, pasos: list[str] | None = None, marca: str = ""):
     chips = "".join(f"<span><b>{i}</b>{p}</span>" for i, p in enumerate(pasos or [], 1))
     arriba = f'<div class="khipu-marca">{marca}</div>' if marca else ""
-    st.markdown(f"""<div class="khipu-hero">{arriba}<h1>{titulo}</h1><p>{subtitulo}</p>
+    st.markdown(f"""<div class="khipu-hero">{arriba}<h1{' class="logo"' if marca else ''}>{titulo}</h1><p>{subtitulo}</p>
                     <div class="khipu-pasos">{chips}</div></div>""", unsafe_allow_html=True)
 
 

@@ -56,7 +56,7 @@ with st.sidebar:
                   on_click=_abrir, args=(clave,),
                   type="primary" if st.session_state.vista == clave else "secondary")
 
-estilo.encabezado("Khipu",
+estilo.encabezado("KHIPU",
                   "Consulta, planifica y reserva: componentes y laboratorios de la FIEE con "
                   "inteligencia artificial, desde la idea de tu proyecto hasta tu reserva.",
                   ["Consulta disponibilidad", "Planifica tu proyecto", "Reserva tu laboratorio"],
