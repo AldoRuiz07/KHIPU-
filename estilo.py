@@ -6,8 +6,9 @@ NAVY, AZUL, AMBAR, NIEBLA = "#0B1F3A", "#1E6BFF", "#FFB000", "#F2F5FA"
 CSS = f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-html, body, [class*="css"], .stMarkdown, .stTextInput, .stButton, .stTabs {{
-    font-family: 'Inter', sans-serif;
+html, body, p, li, label, input, textarea, button, h1, h2, h3, h4, h5,
+[data-testid="stMarkdownContainer"], [data-testid="stWidgetLabel"] {{
+    font-family: 'Inter', sans-serif !important;
 }}
 .block-container {{ padding-top: 1.2rem; max-width: 1200px; }}
 #MainMenu, footer {{ visibility: hidden; }}
@@ -27,31 +28,42 @@ header[data-testid="stHeader"] {{ background: transparent; }}
 .khipu-pasos b {{ color: {AMBAR}; }}
 
 /* ---------- Pestañas tipo khipu: cordón + nudos ---------- */
-.stTabs [data-baseweb="tab-list"] {{
-    gap: 14px; position: relative; padding-top: 26px; border-bottom: none; flex-wrap: wrap;
+.stTabs, .stTabs > div, .stTabs [role="tablist"], .stTabs [role="tablist"] > div {{
+    overflow: visible !important;
 }}
-.stTabs [data-baseweb="tab-list"]::before {{
-    content: ""; position: absolute; top: 9px; left: 0; right: 0; height: 3px;
+.stTabs [role="tablist"], .stTabs [data-baseweb="tab-list"] {{
+    gap: 14px !important; position: relative; padding-top: 30px !important;
+    border-bottom: none !important; flex-wrap: wrap;
+}}
+.stTabs [role="tablist"]::before, .stTabs [data-baseweb="tab-list"]::before {{
+    content: ""; position: absolute; top: 11px; left: 0; right: 0; height: 3px;
     background: {NAVY}; border-radius: 3px;
 }}
-.stTabs [data-baseweb="tab"] {{
-    position: relative; overflow: visible; height: auto; background: white;
-    border: 1.5px solid #D5DCE8; border-radius: 12px; padding: 10px 22px;
-    font-weight: 600; color: {NAVY}; transition: all .15s ease;
+.stTabs button[role="tab"], .stTabs [data-baseweb="tab"] {{
+    position: relative !important; overflow: visible !important; height: auto !important;
+    background: white !important; border: 1.5px solid #D5DCE8 !important;
+    border-radius: 12px !important; padding: 10px 22px !important; margin: 0 !important;
+    font-weight: 600 !important; color: {NAVY} !important; transition: all .15s ease;
 }}
-.stTabs [data-baseweb="tab"]::before {{
-    content: ""; position: absolute; top: -16px; left: 50%; width: 2px; height: 16px;
+.stTabs button[role="tab"]::before, .stTabs [data-baseweb="tab"]::before {{
+    content: ""; position: absolute; top: -17px; left: 50%; width: 2px; height: 17px;
     background: {NAVY}; transform: translateX(-50%);
 }}
-.stTabs [data-baseweb="tab"]::after {{
-    content: ""; position: absolute; top: -23px; left: 50%; width: 12px; height: 12px;
+.stTabs button[role="tab"]::after, .stTabs [data-baseweb="tab"]::after {{
+    content: ""; position: absolute; top: -24px; left: 50%; width: 13px; height: 13px;
     border-radius: 50%; background: {NAVY}; transform: translateX(-50%);
 }}
-.stTabs [data-baseweb="tab"]:hover {{ border-color: {AZUL}; color: {AZUL}; }}
-.stTabs [aria-selected="true"] {{ background: {NAVY}; color: white !important; border-color: {NAVY}; }}
-.stTabs [aria-selected="true"]::after {{ background: {AMBAR}; box-shadow: 0 0 0 4px rgba(255,176,0,.30); }}
-.stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] {{ display: none; }}
-.stTabs [data-baseweb="tab-panel"] {{ padding-top: 14px; }}
+.stTabs button[role="tab"]:hover {{ border-color: {AZUL} !important; color: {AZUL} !important; }}
+.stTabs button[role="tab"][aria-selected="true"], .stTabs [aria-selected="true"] {{
+    background: {NAVY} !important; color: white !important; border-color: {NAVY} !important;
+}}
+.stTabs button[role="tab"][aria-selected="true"] p {{ color: white !important; }}
+.stTabs button[role="tab"][aria-selected="true"]::after, .stTabs [aria-selected="true"]::after {{
+    background: {AMBAR}; box-shadow: 0 0 0 4px rgba(255,176,0,.30);
+}}
+.stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"],
+.stTabs [data-testid="stTabsHighlight"] {{ display: none !important; }}
+.stTabs [role="tabpanel"], .stTabs [data-baseweb="tab-panel"] {{ padding-top: 16px; }}
 
 /* ---------- Componentes ---------- */
 .stButton > button, .stDownloadButton > button {{ border-radius: 10px; font-weight: 600; }}
