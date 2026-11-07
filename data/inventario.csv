@@ -73,11 +73,11 @@ SG90,Servomotor SG90,Actuador,Modulo,servo pequeno 180 grados,6,Estante C - cajo
 MOTOR-DC-TT,Motor DC con caja reductora TT,Actuador,Modulo,motor para carritos y robots,10,Estante C - cajon 4
 28BYJ-48,Motor paso a paso 5 V,Actuador,Modulo,motor paso a paso unipolar,4,Estante C - cajon 4
 BUZZER-5V,Buzzer activo 5 V,Actuador,12 mm,alarma sonora,15,Estante C - cajon 4
-PUNTAS-OSC,Puntas de osciloscopio 100MHz 1X/10X,Instrumento,Accesorios,Puntas de prueba con pinza cocodrilo para osciloscopio,15,Estante D - cajon 1
-CABLE-BNC-BNC,Cable coaxial BNC a BNC 1m,Instrumento,Cable,Cable de interconexion para generador y osciloscopio,20,Estante D - cajon 1
-CABLE-BNC-CAIMAN,Cable BNC a pinzas Caiman,Instrumento,Cable,Cable de prueba para senales analogicas,15,Estante D - cajon 1
+PUNTAS-OSC,Puntas de osciloscopio 100MHz 1X/10X,Instrumento,Accesorios,Puntas de prueba con pinza cocodrilo para osciloscopio,40,Estante D - cajon 1
+CABLE-BNC-BNC,Cable coaxial BNC a BNC 1 m,Instrumento,Cable,Cable coaxial de interconexion entre generador y osciloscopio,30,Estante D - cajon 1
+CABLE-BNC-CAIMAN,Cable BNC a pinzas Caiman,Instrumento,Cable,Cable de prueba para senales analogicas,30,Estante D - cajon 1
 MULTIMETRO-DIG,Multimetro digital RMS,Instrumento,Portatil,Medicion de tension corriente y resistencia,10,Estante D - cajon 2
-GEN-FUNCIONES,Generador de funciones 3MHz/25MHz,Instrumento,De banco,Generador de ondas senoidal cuadrada y triangular,4,Estante D - cajon 3
+GEN-FUNCIONES,Generador de funciones 3MHz/25MHz,Instrumento,De banco,Generador de ondas senoidal cuadrada y triangular,12,Estante D - cajon 3
 FUENTE-DC-VAR,Fuente de poder DC regulada 30V 5A,Instrumento,De banco,Fuente DC ajustable para alimentacion de circuitos,6,Estante D - cajon 3
 LF357,Amplificador operacional JFET de alta velocidad,Circuito integrado,DIP-8,Opamp de alta velocidad y ancho de banda amplio para comunicaciones,8,Estante A - cajon 1
 NE5532,Amplificador operacional doble de bajo ruido para audio/analogica,Circuito integrado,DIP-8,Opamp doble de alto rendimiento acustico y lineal,12,Estante A - cajon 1
@@ -90,3 +90,7 @@ BB112,Diodo Varicap / Sintonia,Diodo,SOD-323,Diodo de capacidad variable para os
 MV2109,Diodo Varicap de sintonia RF,Diodo,DO-7,Diodo de capacidad variable para sintonizadores de RF,8,Estante B - cajon 3
 NPO-100PF,Condensador ceramico estabilidad alta 100pF,Condensador,Disco,Condensador tipo NP0 para circuitos resonantes de RF,30,Estante C - cajon 5
 TOROIDE-T50-2,Nucleo toroidal de hierro polvo T50-2,Inductor,Toroide,Nucleo para construccion de bobinas y filtros pasa-bajos de RF,15,Estante C - cajon 6
+CABLE-BANANA-BANANA,Cable banana a banana 1 m,Instrumento,Cable,Cable de prueba para fuentes y multimetros con conector banana de 4 mm en ambos extremos,60,Estante D - cajon 1
+CABLE-COCODRILO-COCODRILO,Cable cocodrilo a cocodrilo 50 cm,Instrumento,Cable,Cable de prueba con pinzas cocodrilo en ambos extremos para conexiones rapidas,80,Estante D - cajon 1
+CABLE-BANANA-COCODRILO,Cable banana a cocodrilo 1 m,Instrumento,Cable,Cable de prueba de banana de 4 mm a pinza cocodrilo para fuentes y multimetros,60,Estante D - cajon 1
+ADAPTADOR-BNC-BANANA,Adaptador BNC macho a banana hembra,Instrumento,Adaptador,Adaptador para conectar cables banana a entradas BNC del osciloscopio o generador,25,Estante D - cajon 1
