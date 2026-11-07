@@ -186,6 +186,14 @@ def listar_solicitudes(estado: str | None = None) -> list[dict]:
         codigos = _filas("SELECT codigo FROM solicitudes ORDER BY fecha, inicio")
     return [ver_solicitud(c["codigo"]) for c in codigos]
 
+def solicitudes_de_alumno(codigo_alumno: str) -> list[dict]:
+    """Todas las solicitudes donde participa ese código de alumno (las más recientes primero)."""
+    codigos = _filas("""SELECT DISTINCT s.codigo FROM solicitudes s
+                        JOIN estudiantes_solicitud e ON e.solicitud = s.codigo
+                        WHERE TRIM(e.codigo_alumno) = ? ORDER BY s.fecha DESC, s.inicio DESC""",
+                     (str(codigo_alumno).strip(),))
+    return [ver_solicitud(c["codigo"]) for c in codigos]
+
 def cambiar_estado(codigo: str, estado: str, nota: str = ""):
     if estado not in ESTADOS:
         raise ValueError(f"Estado inválido: {estado}")

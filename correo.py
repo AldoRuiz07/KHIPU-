@@ -38,7 +38,7 @@ def _enviar(destino: str, asunto: str, texto: str, html: str):
         servidor.login(remitente, clave)
         servidor.send_message(msg)
 
-def _contenido(s: dict) -> tuple[str, str]:
+def contenido(s: dict) -> tuple[str, str]:
     """Arma el correo en texto plano y en HTML a partir de la solicitud."""
     lider = s["estudiantes"][0]
     items = []
@@ -101,6 +101,6 @@ def avisar(codigo: str) -> str:
     destino = str(s["estudiantes"][0].get("correo") or "").strip()
     if not destino:
         raise RuntimeError("el líder no tiene correo")
-    texto, html = _contenido(s)
+    texto, html = contenido(s)
     _enviar(destino, f"Khipu · {TITULOS.get(s['estado'], 'Solicitud')} · {s['codigo']}", texto, html)
     return destino

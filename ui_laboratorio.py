@@ -14,6 +14,12 @@ def mostrar():
         _consultar()
 
 def _nueva_reserva():
+    if st.session_state.get("ultima_solicitud"):
+        _comprobante(st.session_state.ultima_solicitud, "dl_nueva")
+        if st.button("Hacer otra reserva"):
+            st.session_state.pop("ultima_solicitud"); st.session_state.pop("ultimo_correo", None)
+            st.rerun()
+        return
     st.caption("Los componentes solo se usan en laboratorio: reserva una franja de 2 horas y pide lo que necesitas.")
     c1, c2 = st.columns(2)
     fecha = c1.date_input("Fecha", min_value=date.today(), format="DD/MM/YYYY")
@@ -76,25 +82,50 @@ def _nueva_reserva():
             st.error(str(e))
             return
         st.session_state.mi_lista.clear()
-        st.success(f"Solicitud enviada. Tu código es **{codigo}**. El encargado la revisará; "
-                   "consulta el estado en la otra pestaña.")
-        with st.spinner("Enviando confirmación por correo..."):
-            try:
-                st.info(f"📧 Te enviamos la confirmación a **{correo.avisar(codigo)}**.")
-            except Exception as e:
-                st.warning(f"No se pudo enviar el correo ({e}). Guarda tu código: **{codigo}**.")
+        st.session_state.ultima_solicitud = codigo
+        try:
+            with st.spinner("Enviando confirmación por correo..."):
+                st.session_state.ultimo_correo = f"📧 Te enviamos la confirmación a **{correo.avisar(codigo)}**."
+        except Exception:
+            st.session_state.ultimo_correo = ("Guarda tu comprobante o busca tus reservas con tu "
+                                              "código de alumno en *Consultar mi solicitud*.")
+        st.rerun()
 
-def _consultar():
-    codigo = st.text_input("Código de solicitud (LAB-XXXX)")
-    if not codigo:
-        return
+def _comprobante(codigo: str, clave: str):
+    """Mensaje de éxito + botón para descargar el comprobante (no se pierde al recargar)."""
     s = db.ver_solicitud(codigo)
     if s is None:
-        st.warning("No existe esa solicitud.")
         return
-    st.markdown(f"### {ICONO[s['estado']]} {s['estado'].capitalize()}")
-    st.write(f"**{s['lab_nombre']}** — {s['fecha']} {s['inicio']} - {s['fin']}")
-    st.write(f"Motivo: {s['motivo']}")
-    if s["nota"]:
-        st.info(f"Nota del encargado: {s['nota']}")
-    st.dataframe(pd.DataFrame(s["items"]), hide_index=True)
+    st.success(f"Solicitud enviada. Tu código es **{codigo}**. El encargado la revisará.")
+    if st.session_state.get("ultimo_correo"):
+        st.info(st.session_state.ultimo_correo)
+    _, html = correo.contenido(s)
+    st.download_button("⬇️ Descargar comprobante", data=html, file_name=f"Khipu_{codigo}.html",
+                       mime="text/html", key=clave)
+
+def _consultar():
+    texto = st.text_input("Tu código de solicitud (LAB-XXXX) o tu código de alumno",
+                          placeholder="LAB-7Q2M  ·  20200001").strip()
+    if not texto:
+        st.caption("Con tu código de alumno ves todas tus reservas, aunque hayas cerrado la página.")
+        return
+    if texto.upper().startswith("LAB-"):
+        s = db.ver_solicitud(texto)
+        solicitudes = [s] if s else []
+    else:
+        solicitudes = db.solicitudes_de_alumno(texto)
+    if not solicitudes:
+        st.warning("No encontramos solicitudes con ese código.")
+        return
+    for s in solicitudes:
+        with st.container(border=True):
+            st.markdown(f"#### {ICONO[s['estado']]} {s['codigo']} · {s['estado'].capitalize()}")
+            st.write(f"**{s['lab_nombre']}** — {s['fecha']} · {s['inicio']} - {s['fin']}")
+            st.write(f"Motivo: {s['motivo']}")
+            if s["nota"]:
+                st.info(f"Nota del encargado: {s['nota']}")
+            if s["items"]:
+                st.dataframe(pd.DataFrame(s["items"]), hide_index=True)
+            _, html = correo.contenido(s)
+            st.download_button("⬇️ Comprobante", data=html, file_name=f"Khipu_{s['codigo']}.html",
+                               mime="text/html", key=f"dl_{s['codigo']}")
