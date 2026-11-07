@@ -11,9 +11,9 @@ import db
 
 NAVY, AZUL, AMBAR = "#0B1F3A", "#1E6BFF", "#FFB000"
 TITULOS = {"pendiente": "Confirmación de solicitud de laboratorio",
-           "aceptada": "✅ Tu reserva de laboratorio fue ACEPTADA",
-           "rechazada": "❌ Tu reserva de laboratorio fue RECHAZADA",
-           "finalizada": "🏁 Tu reserva de laboratorio fue finalizada"}
+           "aceptada": "Tu reserva de laboratorio fue aceptada",
+           "rechazada": "Tu reserva de laboratorio fue rechazada",
+           "finalizada": "Tu reserva de laboratorio fue finalizada"}
 
 def _valor(nombre: str) -> str:
     if os.getenv(nombre):
@@ -92,7 +92,7 @@ def contenido(s: dict) -> tuple[str, str]:
     <b>Estudiantes</b><ul style="margin:6px 0 12px">{estudiantes}</ul>
     {f"<p style='background:#FFF6E0;padding:10px;border-radius:8px'>{escape(nota)}</p>" if nota else ""}
     <div style="border:1px dashed #9AA8BD;border-radius:8px;padding:10px 12px;font-size:12px;margin:10px 0">
-      🔏 <b>Firma electrónica:</b> {escape(s.get('verificacion') or 'sin verificar')}<br>
+      <b>Firma electrónica:</b> {escape(s.get('verificacion') or 'sin verificar')}<br>
       <b>Sello digital (SHA-256):</b> <span style="font-family:monospace;word-break:break-all">{s.get('huella') or '-'}</span></div>
     <p style="color:#5B6B82">{siguiente}</p>
     <p style="font-size:12px;color:#5B6B82">Consulta el estado cuando quieras en Khipu → Laboratorio → Consultar mi solicitud.</p>
@@ -135,7 +135,7 @@ def avisar_publicacion(p: dict):
     if not configurado():
         raise RuntimeError("el envío de correos no está configurado")
     aprobada = p["estado"] == "publicada"
-    titulo = "✅ Tu publicación ya está visible en Khipu" if aprobada else "❌ Tu publicación no fue aprobada"
+    titulo = "Tu publicación fue aprobada y ya está visible" if aprobada else "Tu publicación no fue aprobada"
     detalle = (f"Para marcarla como vendida usa este código en Khipu → Compra y venta → "
                f"Mis publicaciones: {p['codigo']}") if aprobada else "Puedes corregirla y publicar de nuevo."
     nota = f"Nota del encargado: {p['nota']}" if p.get("nota") else ""

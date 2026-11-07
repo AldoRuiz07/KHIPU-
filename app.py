@@ -17,12 +17,12 @@ if "aviso" in st.session_state:
 izq, der = st.columns([3, 1.3], vertical_alignment="center")
 with izq:
     estilo.barra_institucional()                     # logos UNMSM + FIEE
-modo = der.segmented_control("Modo", ["🎓 Estudiante", "🔐 Encargado"],
-                             default="🎓 Estudiante", label_visibility="collapsed",
-                             key="modo") or "🎓 Estudiante"
+modo = der.segmented_control("Modo", ["Estudiante", "Encargado"],
+                             default="Estudiante", label_visibility="collapsed",
+                             key="modo") or "Estudiante"
 
 # ================================================================ MODO ENCARGADO
-if modo == "🔐 Encargado":
+if modo == "Encargado":
     estilo.encabezado("Panel del encargado",
                       "Solicitudes de laboratorio, inventario, laboratorios y demanda en tiempo real.")
     ui_encargado.mostrar()
@@ -32,11 +32,11 @@ if modo == "🔐 Encargado":
 # ================================================================ MODO ESTUDIANTE
 n = sum(i["cantidad"] for i in st.session_state.mi_lista)
 estilo.encabezado("Consulta, planifica y reserva",
-                  f"Componentes y laboratorios de la FIEE con IA · 🛒 Mi lista: {n} unidades",
-                  ["Pregunta o sube una foto/PDF", "Arma tu proyecto", "Reserva tu laboratorio"])
+                  f"Componentes y laboratorios de la FIEE con inteligencia artificial · Mi lista: {n} unidades",
+                  ["Consulta disponibilidad", "Planifica tu proyecto", "Reserva tu laboratorio"])
 
 with st.sidebar:                                    # Mi lista
-    st.markdown("### 🛒 Mi lista")
+    st.markdown("### Mi lista")
     if not st.session_state.mi_lista:
         st.caption("Vacía. Lo que te recomiende el chat o Mi proyecto aparecerá aquí.")
     for item in list(st.session_state.mi_lista):
@@ -47,9 +47,9 @@ with st.sidebar:                                    # Mi lista
         if c2.button("✕", key=f"quitar_{item['codigo']}"):
             lista.quitar(st.session_state.mi_lista, item["codigo"]); st.rerun()
     if st.session_state.mi_lista:
-        st.info("Resérvalos en la pestaña **🔬 Laboratorio**.")
+        st.info("Puedes reservarlos en la pestaña **Laboratorio**.")
 
-pestanas = st.tabs(["💬 Preguntar", "📋 Mi proyecto", "🔬 Laboratorio", "🤝 Compra y venta"])
+pestanas = st.tabs(["Preguntar", "Mi proyecto", "Laboratorio", "Compra y venta"])
 for pestana, modulo in zip(pestanas, [ui_chat, ui_proyecto, ui_laboratorio, ui_ventas]):
     with pestana:
         modulo.mostrar()

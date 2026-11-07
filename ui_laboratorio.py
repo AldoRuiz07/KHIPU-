@@ -5,7 +5,7 @@ import streamlit as st
 import pandas as pd
 import db, lista, correo
 
-ICONO = {"pendiente": "⏳", "aceptada": "✅", "rechazada": "❌", "finalizada": "🏁"}
+ESTADO = {"pendiente": "Pendiente", "aceptada": "Aceptada", "rechazada": "Rechazada", "finalizada": "Finalizada"}
 
 def mostrar():
     nueva, consultar = st.tabs(["Nueva reserva", "Consultar mi solicitud"])
@@ -122,7 +122,7 @@ def _ahora() -> str:
 
 def _paso_firma():
     f = st.session_state.firma
-    st.markdown("### 🔏 Firma tu solicitud")
+    st.markdown("### Verificación de identidad")
     st.write(f"Para evitar que alguien reserve a nombre de otra persona, enviamos un **código de "
              f"6 dígitos** al correo institucional del líder: **{_oculto(f['correo'])}**.")
     if f.get("demo"):
@@ -152,7 +152,7 @@ def _paso_firma():
             st.session_state.ultima_solicitud = codigo
             try:
                 with st.spinner("Enviando confirmación por correo..."):
-                    st.session_state.ultimo_correo = f"📧 Te enviamos la confirmación a **{correo.avisar(codigo)}**."
+                    st.session_state.ultimo_correo = f"Se envió la confirmación a **{correo.avisar(codigo)}**."
             except Exception:
                 st.session_state.ultimo_correo = ("Guarda tu comprobante o busca tus reservas con tu "
                                                   "código de alumno en *Consultar mi solicitud*.")
@@ -171,11 +171,11 @@ def _comprobante(codigo: str, clave: str):
         return
     st.success(f"Solicitud firmada y enviada. Tu código es **{codigo}**. El encargado la revisará.")
     if s.get("huella"):
-        st.caption(f"🔏 {s.get('verificacion')} · Sello digital: `{s['huella'][:16]}…`")
+        st.caption(f"{s.get('verificacion')} · Sello digital: `{s['huella'][:16]}…`")
     if st.session_state.get("ultimo_correo"):
         st.info(st.session_state.ultimo_correo)
     _, html = correo.contenido(s)
-    st.download_button("⬇️ Descargar comprobante", data=html, file_name=f"Khipu_{codigo}.html",
+    st.download_button("Descargar comprobante", data=html, file_name=f"Khipu_{codigo}.html",
                        mime="text/html", key=clave)
 
 def _consultar():
@@ -194,7 +194,7 @@ def _consultar():
         return
     for s in solicitudes:
         with st.container(border=True):
-            st.markdown(f"#### {ICONO[s['estado']]} {s['codigo']} · {s['estado'].capitalize()}")
+            st.markdown(f"#### {s['codigo']} · {ESTADO[s['estado']]}")
             st.write(f"**{s['lab_nombre']}** — {s['fecha']} · {s['inicio']} - {s['fin']}")
             st.write(f"Motivo: {s['motivo']}")
             if s["nota"]:
@@ -202,5 +202,5 @@ def _consultar():
             if s["items"]:
                 st.dataframe(pd.DataFrame(s["items"]), hide_index=True)
             _, html = correo.contenido(s)
-            st.download_button("⬇️ Comprobante", data=html, file_name=f"Khipu_{s['codigo']}.html",
+            st.download_button("Descargar comprobante", data=html, file_name=f"Khipu_{s['codigo']}.html",
                                mime="text/html", key=f"dl_{s['codigo']}")
