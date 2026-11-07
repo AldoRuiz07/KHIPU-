@@ -307,6 +307,10 @@ label, [data-testid="stWidgetLabel"] p {{ font-size: .95rem !important; }}
 .stTabs [data-baseweb="tab"] p {{ font-size: 1rem; }}
 .khipu-pie {{ font-size: .88rem; }}
 .khipu-pasos span {{ font-size: .9rem; }}
+.khipu-marca {{
+    font-size: .9rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: {ORO}; margin-bottom: 10px;
+}}
 
 /* ---------- Barra lateral más angosta y botones de herramientas más grandes ---------- */
 [data-testid="stSidebar"][aria-expanded="true"] {{ min-width: 250px !important; max-width: 250px !important; }}
@@ -374,9 +378,10 @@ def aplicar(oscuro: bool | None = None):
     st.markdown(_css(oscuro), unsafe_allow_html=True)
 
 
-def encabezado(titulo: str, subtitulo: str, pasos: list[str] | None = None):
+def encabezado(titulo: str, subtitulo: str, pasos: list[str] | None = None, marca: str = ""):
     chips = "".join(f"<span><b>{i}</b>{p}</span>" for i, p in enumerate(pasos or [], 1))
-    st.markdown(f"""<div class="khipu-hero"><h1>{titulo}</h1><p>{subtitulo}</p>
+    arriba = f'<div class="khipu-marca">{marca}</div>' if marca else ""
+    st.markdown(f"""<div class="khipu-hero">{arriba}<h1>{titulo}</h1><p>{subtitulo}</p>
                     <div class="khipu-pasos">{chips}</div></div>""", unsafe_allow_html=True)
 
 

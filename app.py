@@ -56,10 +56,11 @@ with st.sidebar:
                   on_click=_abrir, args=(clave,),
                   type="primary" if st.session_state.vista == clave else "secondary")
 
-estilo.encabezado("Consulta, planifica y reserva",
-                  "Componentes y laboratorios de la FIEE con inteligencia artificial, desde la idea "
-                  "de tu proyecto hasta tu reserva.",
-                  ["Consulta disponibilidad", "Planifica tu proyecto", "Reserva tu laboratorio"])
+estilo.encabezado("Khipu",
+                  "Consulta, planifica y reserva: componentes y laboratorios de la FIEE con "
+                  "inteligencia artificial, desde la idea de tu proyecto hasta tu reserva.",
+                  ["Consulta disponibilidad", "Planifica tu proyecto", "Reserva tu laboratorio"],
+                  marca="Almacén y laboratorios · FIEE · UNMSM")
 
 if st.session_state.vista:                          # una herramienta elegida en la barra lateral
     if st.button("← Volver al inicio", key="volver_inicio"):
