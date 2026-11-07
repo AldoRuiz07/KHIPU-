@@ -1,5 +1,5 @@
 codigo,nombre,capacidad,ubicacion
-LAB-A,Laboratorio de Electrónica A (ejemplo),24,Pabellón de laboratorios - 1er piso
-LAB-B,Laboratorio de Electrónica B (ejemplo),24,Pabellón de laboratorios - 1er piso
-LAB-C,Laboratorio de Sistemas Digitales (ejemplo),20,Pabellón de laboratorios - 2do piso
-LAB-D,Laboratorio de Microcontroladores (ejemplo),20,Pabellón de laboratorios - 2do piso
+LAB-A,Laboratorio de Electrónica A,24,Pabellón de laboratorios - 1er piso
+LAB-B,Laboratorio de Electrónica B,24,Pabellón de laboratorios - 1er piso
+LAB-C,Laboratorio de Sistemas Digitales,20,Pabellón de laboratorios - 2do piso
+LAB-D,Laboratorio de Microcontroladores,20,Pabellón de laboratorios - 2do piso
