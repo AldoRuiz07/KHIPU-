@@ -50,6 +50,13 @@ def _solicitudes():
     for s in solicitudes:
         with st.expander(f"{s['codigo']} · {s['lab_nombre']} · {s['fecha']} {s['inicio']}–{s['fin']}"):
             st.write(f"**Motivo:** {s['motivo']}")
+            if s.get("huella"):
+                if db.huella_valida(s):
+                    st.success(f"🔏 Firma válida · {s.get('verificacion')} · sello `{s['huella'][:16]}…`")
+                else:
+                    st.error("⚠️ El sello digital NO coincide: los datos fueron alterados.")
+            else:
+                st.warning("Sin firma: solicitud no verificada.")
             st.dataframe(pd.DataFrame(s["estudiantes"]), hide_index=True)
             st.dataframe(pd.DataFrame(s["items"]), hide_index=True)
             nota = st.text_input("Nota para los estudiantes (opcional)", key=f"nota_{s['codigo']}")

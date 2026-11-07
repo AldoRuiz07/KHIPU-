@@ -1,4 +1,5 @@
 import sqlite3, random, string, csv
+import hashlib, json
 from datetime import date
 from pathlib import Path
 
@@ -23,7 +24,7 @@ CREATE TABLE IF NOT EXISTS horario_clases (
     laboratorio TEXT, dia TEXT, inicio TEXT, fin TEXT, curso TEXT);
 CREATE TABLE IF NOT EXISTS solicitudes (
     codigo TEXT PRIMARY KEY, laboratorio TEXT NOT NULL, fecha TEXT NOT NULL, inicio TEXT NOT NULL, fin TEXT NOT NULL, motivo TEXT, estado TEXT NOT NULL DEFAULT 'pendiente', nota TEXT,
-    creada TEXT DEFAULT (datetime('now', 'localtime')));
+    creada TEXT DEFAULT (datetime('now', 'localtime')), verificacion TEXT, huella TEXT);
 CREATE TABLE IF NOT EXISTS estudiantes_solicitud (
     solicitud TEXT NOT NULL, nombre TEXT NOT NULL, codigo_alumno TEXT NOT NULL, correo TEXT);
 CREATE TABLE IF NOT EXISTS items_solicitud (
@@ -49,6 +50,11 @@ def iniciar():
     """Crea las tablas y carga los CSV (solo si la base está vacía)."""
     con = conectar()
     con.executescript(ESQUEMA)
+    for columna in ("verificacion", "huella"):          # bases creadas antes de la firma
+        try:
+            con.execute(f"ALTER TABLE solicitudes ADD COLUMN {columna} TEXT")
+        except sqlite3.OperationalError:
+            pass
     if con.execute("SELECT COUNT(*) FROM componentes").fetchone()[0] == 0:
         con.executemany("INSERT INTO componentes VALUES (?,?,?,?,?,?,?)",
             [(normalizar(r["codigo"]), r["nombre"], r["categoria"], r["encapsulado"],
@@ -132,8 +138,9 @@ def disponibles_en_franja(fecha: str, inicio: str, fin: str) -> dict[str, int]:
                 disp[it["componente"]] = disp.get(it["componente"], 0) - it["cantidad"]
     return disp    
 
-def crear_solicitud(laboratorio, fecha, inicio, fin, motivo, estudiantes: list[dict], items: list[tuple[str, int]]) -> str:
-    """Valida todo y guarda la solicitud de laboratorio."""
+def validar_solicitud(laboratorio, fecha, inicio, fin, motivo,
+                      estudiantes: list[dict], items: list[tuple[str, int]]):
+    """Revisa todo SIN guardar. Devuelve (estudiantes, items) limpios o lanza ValueError."""
     estudiantes = [e for e in estudiantes if str(e.get("nombre") or "").strip() and str(e.get("codigo_alumno") or "").strip()]
     if len(estudiantes) < 2:
         raise ValueError("Se necesitan al menos 2 estudiantes con nombre y código.")
@@ -143,13 +150,13 @@ def crear_solicitud(laboratorio, fecha, inicio, fin, motivo, estudiantes: list[d
             raise ValueError(f"El correo {correo} debe ser @unmsm.edu.pe")
     if not str(motivo or "").strip():
         raise ValueError("Escribe el motivo de la reserva.")
-    
+
     lab = next((l for l in estado_laboratorios(fecha, inicio, fin) if l["codigo"] == laboratorio), None)
     if lab is None:
         raise ValueError("Ese laboratorio no existe.")
     if lab["ocupado"]:
         raise ValueError(f"{lab['nombre']} está ocupado en esa franja ({lab['motivo']}).")
-        
+
     disp = disponibles_en_franja(fecha, inicio, fin)
     items = [(normalizar(c), int(n)) for c, n in items if c and int(n or 0) > 0]
     for cod, cant in items:
@@ -157,17 +164,40 @@ def crear_solicitud(laboratorio, fecha, inicio, fin, motivo, estudiantes: list[d
             raise ValueError(f"{cod} no existe en el almacén.")
         if cant > disp[cod]:
             raise ValueError(f"{cod}: pediste {cant}, en esa franja hay {max(disp[cod], 0)}.")
-            
+    return estudiantes, items
+
+def crear_solicitud(laboratorio, fecha, inicio, fin, motivo, estudiantes: list[dict],
+                    items: list[tuple[str, int]], verificacion: str = "") -> str:
+    """Valida todo, guarda la solicitud y la sella con su huella digital."""
+    estudiantes, items = validar_solicitud(laboratorio, fecha, inicio, fin, motivo, estudiantes, items)
     codigo = "LAB-" + "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
     con = conectar()
-    con.execute("INSERT INTO solicitudes (codigo, laboratorio, fecha, inicio, fin, motivo) VALUES (?,?,?,?,?,?)", 
-                (codigo, laboratorio, fecha, inicio, fin, motivo.strip()))
+    con.execute("INSERT INTO solicitudes (codigo, laboratorio, fecha, inicio, fin, motivo, verificacion) "
+                "VALUES (?,?,?,?,?,?,?)",
+                (codigo, laboratorio, fecha, inicio, fin, motivo.strip(), verificacion))
     con.executemany("INSERT INTO estudiantes_solicitud VALUES (?,?,?,?)",
                     [(codigo, e["nombre"].strip(), str(e["codigo_alumno"]).strip(), str(e.get("correo") or "").strip()) for e in estudiantes])
     con.executemany("INSERT INTO items_solicitud VALUES (?,?,?)", [(codigo, c, n) for c, n in items])
     con.commit()
     con.close()
+    s = ver_solicitud(codigo)
+    con = conectar()
+    con.execute("UPDATE solicitudes SET huella=? WHERE codigo=?", (huella(s), codigo))
+    con.commit()
+    con.close()
     return codigo
+
+def huella(s: dict) -> str:
+    """Sello digital: SHA-256 de los datos esenciales. Si alguien cambia algo, ya no coincide."""
+    datos = {"codigo": s["codigo"], "laboratorio": s["laboratorio"], "fecha": s["fecha"],
+             "inicio": s["inicio"], "fin": s["fin"], "motivo": s["motivo"],
+             "verificacion": s.get("verificacion") or "", "creada": s["creada"],
+             "estudiantes": [[e["nombre"], str(e["codigo_alumno"]), e["correo"]] for e in s["estudiantes"]],
+             "items": sorted([it["componente"], it["cantidad"]] for it in s["items"])}
+    return hashlib.sha256(json.dumps(datos, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
+
+def huella_valida(s: dict) -> bool:
+    return bool(s.get("huella")) and s["huella"] == huella(s)
 
 def ver_solicitud(codigo: str) -> dict | None:
     codigo = codigo.strip().upper()

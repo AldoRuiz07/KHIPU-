@@ -24,6 +24,10 @@ def _valor(nombre: str) -> str:
     except Exception:
         return ""
 
+def modo_demo() -> bool:
+    """Si VERIFICACION_DEMO = "si", el código se muestra en pantalla (solo para presentaciones)."""
+    return _valor("VERIFICACION_DEMO").strip().lower() in ("si", "sí", "true", "1")
+
 def configurado() -> bool:
     return bool(_valor("CORREO_REMITENTE") and _valor("CORREO_CLAVE"))
 
@@ -60,6 +64,8 @@ def contenido(s: dict) -> tuple[str, str]:
         "Componentes:" if items else "Componentes: ninguno",
         *[f"  - {c} ({n}) x {q}" for c, n, q in items],
         "Estudiantes:", *[f"  - {e['nombre']} ({e['codigo_alumno']})" for e in s["estudiantes"]],
+        "", f"Firma: {s.get('verificacion') or 'sin verificar'}",
+        f"Sello digital (SHA-256): {s.get('huella') or '-'}",
         "", nota, siguiente, "", "Khipu · Asistente de Almacén IA · FIEE-UNMSM"])
     filas_items = "".join(
         f"<tr><td style='padding:6px 10px;border-bottom:1px solid #E3E8F1'><b>{escape(c)}</b></td>"
@@ -85,10 +91,28 @@ def contenido(s: dict) -> tuple[str, str]:
     <table style="width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:14px">{filas_items}</table>
     <b>Estudiantes</b><ul style="margin:6px 0 12px">{estudiantes}</ul>
     {f"<p style='background:#FFF6E0;padding:10px;border-radius:8px'>{escape(nota)}</p>" if nota else ""}
+    <div style="border:1px dashed #9AA8BD;border-radius:8px;padding:10px 12px;font-size:12px;margin:10px 0">
+      🔏 <b>Firma electrónica:</b> {escape(s.get('verificacion') or 'sin verificar')}<br>
+      <b>Sello digital (SHA-256):</b> <span style="font-family:monospace;word-break:break-all">{s.get('huella') or '-'}</span></div>
     <p style="color:#5B6B82">{siguiente}</p>
     <p style="font-size:12px;color:#5B6B82">Consulta el estado cuando quieras en Khipu → Laboratorio → Consultar mi solicitud.</p>
   </div></div>"""
     return texto, html
+
+def enviar_codigo(destino: str, nombre: str, codigo6: str):
+    """Envía el código de verificación de identidad (firma electrónica simple)."""
+    texto = (f"Hola {nombre},\n\nTu código para confirmar la reserva en Khipu es: {codigo6}\n"
+             "Vence en 10 minutos. Si no fuiste tú, ignora este correo.\n\nKhipu · FIEE-UNMSM")
+    html = f"""<div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;color:{NAVY}">
+  <div style="background:{NAVY};color:white;padding:16px 20px;border-radius:12px 12px 0 0">
+    <b style="font-size:20px">Khipu</b> · verificación de identidad</div>
+  <div style="border:1px solid #E3E8F1;border-top:none;padding:20px;border-radius:0 0 12px 12px">
+    <p>Hola <b>{escape(nombre)}</b>, usa este código para firmar tu reserva de laboratorio:</p>
+    <div style="font-size:34px;font-weight:800;letter-spacing:8px;text-align:center;
+                background:#F2F5FA;border-left:4px solid {AMBAR};padding:14px;border-radius:8px">{codigo6}</div>
+    <p style="color:#5B6B82;font-size:13px">Vence en 10 minutos. Si no fuiste tú, ignora este correo:
+    nadie podrá reservar a tu nombre sin este código.</p></div></div>"""
+    _enviar(destino, f"Khipu · Tu código de verificación: {codigo6}", texto, html)
 
 def avisar(codigo: str) -> str:
     """Envía el correo según el estado actual de la solicitud al líder (estudiante 1).
