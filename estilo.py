@@ -291,6 +291,9 @@ code, pre {{ background: {SURF2} !important; color: {TXT} !important; }}
 [data-baseweb="popover"], [data-baseweb="popover"] > div, [data-baseweb="menu"],
 ul[role="listbox"], [data-baseweb="calendar"] {{ background: {SURF} !important; color: {TXT} !important; }}
 [data-baseweb="popover"] li:hover, ul[role="listbox"] li:hover {{ background: {SURF2} !important; }}
+[data-testid="stBottom"], [data-testid="stBottom"] > div, [data-testid="stBottomBlockContainer"] {{
+    background: {SURF2} !important;
+}}
 [data-testid="stChatInput"] {{ background: {SURF} !important; }}
 [data-testid="stChatInput"] * {{ background: transparent !important; color: {TXT} !important; }}
 [data-testid="stChatInput"] textarea::placeholder {{ color: {MUTED} !important; }}
