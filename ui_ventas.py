@@ -38,13 +38,12 @@ def _ver():
                 if p["descripcion"]:
                     st.write(p["descripcion"])
                 asunto = quote(f"Khipu: {p['titulo']}")
-                c1, c2 = st.columns(2)
-                c1.link_button("Correo", f"mailto:{p['correo']}?subject={asunto}",
-                               use_container_width=True)
+                contacto = (f"**Contacto:** [{p['correo']}](mailto:{p['correo']}?subject={asunto})")
                 if p["whatsapp"]:
                     msg = quote(f"Hola {p['nombre']}, vi tu publicación en Khipu: {p['titulo']}")
-                    c2.link_button("WhatsApp", f"https://wa.me/51{p['whatsapp']}?text={msg}",
-                                   use_container_width=True)
+                    contacto += (f"  \n**WhatsApp:** [{p['whatsapp']}]"
+                                 f"(https://wa.me/51{p['whatsapp']}?text={msg})")
+                st.markdown(contacto)
     st.caption("Khipu solo publica los avisos: el trato es entre estudiantes. "
                "Recomendamos hacer la entrega dentro de la universidad.")
 
