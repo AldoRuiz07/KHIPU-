@@ -271,6 +271,42 @@ p.sub {{ color: {MUTED}; margin: 8px 0 16px 0; max-width: 720px; line-height: 1.
     background: {SURF2}; border: 1px solid {BORDE}; border-radius: 6px; padding: 4px 12px;
     font-size: .84rem; font-weight: 500; font-family: 'Geist Mono', monospace !important;
 }}
+
+/* ---------- Tarjetas numeradas (sin emojis) y pasos del flujo ---------- */
+.khipu-card.numerada {{ border-top: 3px solid {ORO}; padding-top: 20px; }}
+.khipu-num {{
+    font-family: 'Geist Mono', monospace !important; font-size: .95rem; font-weight: 600;
+    color: {ORO}; letter-spacing: .04em; margin-bottom: 10px;
+}}
+.khipu-pasos-flujo span b {{
+    display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;
+    margin-right: 8px; border-radius: 50%; background: {BTN}; color: #FFFFFF; font-size: .75rem;
+    font-family: 'Geist Mono', monospace !important;
+}}
+
+/* ---------- Lectura: letra más grande y párrafos justificados ---------- */
+html {{ font-size: 17px; }}
+.stMarkdown p, .stMarkdown li, [data-testid="stChatMessage"] p, [data-testid="stChatMessage"] li {{
+    font-size: 1.02rem; line-height: 1.65;
+}}
+.stMarkdown p, .stMarkdown li, p.sub, .khipu-card p, .khipu-cita, .ini-intro, .ini-card p, .ini-nombre,
+[data-testid="stChatMessage"] p, [data-testid="stExpander"] p {{
+    text-align: justify; text-justify: inter-word;
+}}
+[lang="es"] p, [lang="es"] li, [lang="es"].khipu-cita {{ hyphens: auto; -webkit-hyphens: auto; }}
+.khipu-persona, .khipu-persona *, .cal-dia, .cal-dia *, .ini-cifra *, .stButton p {{ text-align: center; hyphens: none; }}
+p.sub {{ font-size: 1.05rem; max-width: 820px; }}
+.khipu-card h4 {{ font-size: 1.1rem; }}
+.khipu-card p {{ font-size: 1rem; }}
+.khipu-card.grande p {{ font-size: 1.08rem; }}
+.khipu-pasos-flujo span {{ font-size: .95rem; }}
+.khipu-persona span {{ font-size: .95rem; }}
+.khipu-eyebrow {{ font-size: .8rem; }}
+label, [data-testid="stWidgetLabel"] p {{ font-size: .95rem !important; }}
+[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p {{ font-size: .92rem !important; }}
+.stTabs [data-baseweb="tab"] p {{ font-size: 1rem; }}
+.khipu-pie {{ font-size: .88rem; }}
+.khipu-pasos span {{ font-size: .9rem; }}
 </style>
 """
     if not oscuro:

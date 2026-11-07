@@ -14,7 +14,7 @@ EQUIPO = [
      "https://www.linkedin.com/in/karlamontesm"),
     ("aldo.png", "Aldo Ruiz", "Chat con IA, fotos y PDFs",
      "https://www.linkedin.com/in/aldoruiz07/"),
-    ("erik.png", "Erik Espinel", "Interfaz, Mi proyecto y panel del encargado",
+    ("erik.png", "Erik Espinel", "Interfaz, armado de proyectos y panel del encargado",
      "https://www.linkedin.com/in/erik-espinel-bernilla"),
 ]
 
@@ -25,10 +25,11 @@ def _html(texto: str):
                 unsafe_allow_html=True)
 
 
-def _tarjetas(items: list[tuple[str, str, str]]) -> str:
-    return '<div class="khipu-grid">' + "".join(
-        f'<div class="khipu-card"><div class="ico">{i}</div><h4>{t}</h4><p>{d}</p></div>'
-        for i, t, d in items) + "</div>"
+def _tarjetas(items: list[tuple[str, str]]) -> str:
+    """Tarjetas numeradas (01, 02...) con línea dorada: sobrias, sin emojis."""
+    return '<div class="khipu-grid" lang="es">' + "".join(
+        f'<div class="khipu-card numerada"><div class="khipu-num">{n:02d}</div><h4>{t}</h4><p>{d}</p></div>'
+        for n, (t, d) in enumerate(items, 1)) + "</div>"
 
 
 def pestanas(inicio=None):
@@ -47,7 +48,7 @@ def pestanas(inicio=None):
 # ====================================================================== Misión y visión
 def _mision_vision():
     _html('<div class="khipu-eyebrow">Khipu · FIEE · UNMSM</div><h2 class=\"khipu-h2\">Misión y visión</h2>')
-    _html("""<div class="khipu-grid">
+    _html("""<div class="khipu-grid" lang="es">
         <div class="khipu-card grande"><div class="khipu-eyebrow">Misión</div>
         <p>Facilitar a los estudiantes de la FIEE el acceso al almacén y a los laboratorios de
         electrónica con una plataforma web que usa inteligencia artificial sobre datos reales de la
@@ -61,28 +62,28 @@ def _mision_vision():
 
     _html("<h2 class=\"khipu-h2\">Nuestros principios</h2>")
     _html(_tarjetas([
-        ("🧠", "La IA no inventa",
+        ("La IA no inventa",
          "El modelo entiende texto, fotos y PDFs, pero el stock y la ocupación salen de nuestra base de "
          "datos a través de funciones que nosotros controlamos."),
-        ("🎓", "De estudiantes, para estudiantes",
+        ("De estudiantes, para estudiantes",
          "Lo construimos desde lo que vivimos cada ciclo en la FIEE. Las equivalencias entre componentes "
          "las armamos y revisamos con los datasheets."),
-        ("🔏", "Confianza y seguridad",
+        ("Confianza y seguridad",
          "Las reservas se confirman con un código al correo institucional y se guardan con sello digital "
          "SHA-256. Las validaciones las hace Python, no el modelo."),
-        ("🛠️", "Datos al alcance del encargado",
+        ("Datos al alcance del encargado",
          "El encargado mantiene inventario, laboratorios y horarios desde su panel, sin tocar código."),
     ]))
 
     _html("<h2 class=\"khipu-h2\">Hacia dónde vamos</h2>")
-    _html("""<div class="khipu-grid">
-        <div class="khipu-card"><h4>✅ Ya funciona</h4><div class="khipu-hecho"><ul>
+    _html("""<div class="khipu-grid" lang="es">
+        <div class="khipu-card"><div class="khipu-eyebrow">Hoy</div><h4>Ya funciona</h4><div class="khipu-hecho"><ul>
         <li>Chat con inventario real, equivalentes, fotos y PDFs</li>
         <li>Lista de componentes a partir de tu proyecto</li>
         <li>Reserva de laboratorio con stock por franja</li>
         <li>Confirmación por correo institucional y sello digital</li>
         <li>Panel del encargado en tiempo real</li></ul></div></div>
-        <div class="khipu-card"><h4>🚀 Lo que sigue</h4><div class="khipu-hecho"><ul>
+        <div class="khipu-card"><div class="khipu-eyebrow">Próximos pasos</div><h4>Lo que sigue</h4><div class="khipu-hecho"><ul>
         <li>Iniciar sesión con la cuenta @unmsm.edu.pe</li>
         <li>Firma digital con DNIe (RENIEC)</li>
         <li>Base de datos en la nube, para que nada se pierda</li>
@@ -109,17 +110,17 @@ def _por_que_nace():
 
     _html("<h2 class=\"khipu-h2\">El problema que vivimos cada ciclo</h2>")
     _html(_tarjetas([
-        ("🚶", "Ir sin saber si hay",
+        ("Ir sin saber si hay",
          "Vas al almacén sin saber si tienen lo que necesitas, y muchas veces te regresas con las manos vacías."),
-        ("📄", "No saber qué pide tu proyecto",
+        ("No saber qué pide tu proyecto",
          "Tienes que leerte toda la guía para saber qué componentes necesitas, a veces minutos antes de entrar a clase."),
-        ("🔁", "Nadie dice qué lo reemplaza",
+        ("Nadie dice qué lo reemplaza",
          "Si algo falta, no hay quien te diga qué lo puede sustituir, y terminas comprando algo que la facultad sí tenía."),
-        ("🔍", "Marcas ilegibles",
+        ("Marcas ilegibles",
          "Hay componentes con marcas tan pequeñas o borrosas que cuesta saber qué son."),
-        ("📝", "Reservar es un trámite manual",
+        ("Reservar es un trámite manual",
          "Formato, datos de al menos dos estudiantes, firmas y un correo a la jefatura del laboratorio."),
-        ("📉", "El almacén no sabe qué buscan",
+        ("El almacén no sabe qué buscan",
          "Sin ver lo que piden los alumnos, no puede anticipar qué comprar."),
     ]))
 
@@ -128,15 +129,15 @@ def _por_que_nace():
         que tienes el laboratorio y los componentes reservados. Lo que el chat o tu proyecto te
         recomiendan se guarda en <b>Mi lista</b>, y al reservar esos componentes ya están cargados.</p>
         <div class="khipu-pasos-flujo">
-        <span>💬 Pregunto o subo una foto/PDF</span><i>→</i>
-        <span>📋 Cuento mi proyecto</span><i>→</i>
-        <span>🛒 Mi lista</span><i>→</i>
-        <span>🔬 Reservo laboratorio</span><i>→</i>
-        <span>✉️ Confirmo con mi correo UNMSM</span><i>→</i>
-        <span>🔐 El encargado responde</span></div>""")
+        <span><b>1</b>Pregunto o subo una foto o PDF</span><i>→</i>
+        <span><b>2</b>Cuento mi proyecto</span><i>→</i>
+        <span><b>3</b>Mi lista</span><i>→</i>
+        <span><b>4</b>Reservo laboratorio</span><i>→</i>
+        <span><b>5</b>Confirmo con mi correo UNMSM</span><i>→</i>
+        <span><b>6</b>El encargado responde</span></div>""")
 
     _html("<h2 class=\"khipu-h2\">¿Por qué el nombre «Khipu»?</h2>")
-    _html("""<div class="khipu-card grande"><p>Los incas llevaban el registro de sus almacenes
+    _html("""<div class="khipu-card grande" lang="es"><p>Los incas llevaban el registro de sus almacenes
         (<i>qollqas</i>), censos e inventarios con el <b>khipu</b>: un cordón principal del que
         colgaban cuerdas con nudos, y cada nudo guardaba un dato. Nos pareció la metáfora perfecta.
         Nuestro logo es un cordón del que cuelgan componentes electrónicos. Khipu es, en el fondo,

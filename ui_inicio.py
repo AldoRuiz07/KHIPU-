@@ -106,7 +106,7 @@ def mostrar():
     _titulo("¿Cómo funciona?", "Cuatro herramientas: ábrelas desde el menú de la izquierda.")
     tarjetas = "".join(f"<div class='ini-card'><span class='num'>{i}</span><h4>{t}</h4><p>{d}</p></div>"
                        for i, (t, d) in enumerate(PASOS, 1))
-    st.markdown(f"<div class='ini-grid'>{tarjetas}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='ini-grid' lang='es'>{tarjetas}</div>", unsafe_allow_html=True)
 
     # Preguntas frecuentes
     _titulo("Preguntas frecuentes")
