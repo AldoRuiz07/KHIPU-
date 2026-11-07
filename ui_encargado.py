@@ -3,11 +3,12 @@ import os
 import streamlit as st
 import pandas as pd
 import db
+from config_ia import valor
 
 
 def mostrar():
     clave = st.text_input("Clave del encargado", type="password", key="clave_enc")
-    if clave != os.getenv("CLAVE_ENCARGADO", "fiee2026"):
+    if clave != valor("CLAVE_ENCARGADO", "fiee2026"):
         st.info("🔐 Solo para el encargado de almacén y laboratorios.")
         return
     _resumen_en_vivo()
