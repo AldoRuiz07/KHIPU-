@@ -1,6 +1,6 @@
 """ui_laboratorio.py pestaña Laboratorio: reservar sala + componentes (dueño: P1)."""
 import hashlib, secrets, time
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import streamlit as st
 import pandas as pd
 import db, lista, correo
@@ -25,9 +25,11 @@ def _nueva_reserva():
         _paso_firma()
         return
     st.caption("Los componentes solo se usan en laboratorio: reserva una franja de 2 horas y pide lo que necesitas.")
+    _calendario()
+    st.markdown("**Fecha y horario**")
     c1, c2 = st.columns(2)
-    fecha = c1.date_input("Fecha", min_value=date.today(), format="DD/MM/YYYY")
-    franja = c2.selectbox("Horario", db.FRANJAS, format_func=lambda f: f"{f[0]} - {f[1]}")
+    fecha = c1.date_input("Fecha", min_value=date.today(), format="DD/MM/YYYY", key="lab_fecha")
+    franja = c2.selectbox("Horario", db.FRANJAS, format_func=lambda f: f"{f[0]} - {f[1]}", key="lab_franja")
     fecha_txt, (inicio, fin) = fecha.isoformat(), franja
     
     # 1. Laboratorios: los ocupados salen tachados
@@ -42,7 +44,11 @@ def _nueva_reserva():
         st.warning("No hay laboratorios libres en esa franja. Prueba otro horario.")
         return
         
-    lab = st.radio("Disponibles", libres, format_func=lambda l: f"{l['nombre']} ({l['capacidad']} personas)", label_visibility="collapsed")
+    preferido = st.session_state.get("lab_preferido")
+    indice = next((i for i, l in enumerate(libres) if l["codigo"] == preferido), 0)
+    lab = st.radio("Disponibles", libres, index=indice,
+                   format_func=lambda l: f"{l['nombre']} ({l['capacidad']} personas)",
+                   label_visibility="collapsed")
     motivo = st.text_input("Motivo", placeholder="Armado del proyecto final de Electrónica I")
 
     # 2. Estudiantes (mínimo 2)
@@ -87,6 +93,58 @@ def _nueva_reserva():
                                   "nombre": str(filas[0]["nombre"]).strip()}
         if _enviar_codigo():
             st.rerun()
+
+# ------------------------------------------------------------------ calendario semanal
+DIAS_CORTOS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+
+def _calendario():
+    """Semana de lunes a sábado con las franjas libres. Al tocar una, se llena el formulario."""
+    with st.expander("Ver horarios libres de la semana", expanded=True):
+        c1, c2 = st.columns([1, 2])
+        semana = c1.date_input("Semana del", min_value=date.today(), format="DD/MM/YYYY", key="cal_semana")
+        labs = db.listar_laboratorios()
+        nombres = {l["codigo"]: l["nombre"] for l in labs}
+        opcion = c2.selectbox("Laboratorio", ["Todos"] + list(nombres), key="cal_lab",
+                              format_func=lambda c: "Todos los laboratorios" if c == "Todos" else nombres[c])
+        lunes = semana - timedelta(days=semana.weekday())
+        try:
+            from zoneinfo import ZoneInfo
+            ahora = datetime.now(ZoneInfo("America/Lima"))     # el servidor está en otra zona horaria
+        except Exception:
+            ahora = datetime.now()
+        hoy, hora = ahora.date(), ahora.strftime("%H:%M")
+        cabecera = st.columns(7)
+        cabecera[0].caption("Horario")
+        for j in range(6):
+            d = lunes + timedelta(days=j)
+            cabecera[j + 1].caption(f"**{DIAS_CORTOS[j]}** {d.day:02d}/{d.month:02d}")
+        for inicio, fin in db.FRANJAS:
+            fila = st.columns(7)
+            fila[0].caption(f"{inicio}-{fin}")
+            for j in range(6):
+                d = lunes + timedelta(days=j)
+                pasado = d < hoy or (d == hoy and inicio <= hora)
+                estado = db.estado_laboratorios(d.isoformat(), inicio, fin)
+                if opcion != "Todos":
+                    estado = [l for l in estado if l["codigo"] == opcion]
+                libres = [l for l in estado if not l["ocupado"]]
+                if pasado:
+                    texto = "-"
+                elif opcion == "Todos":
+                    texto = f"{len(libres)} libres" if libres else "Lleno"
+                else:
+                    texto = "Libre" if libres else "Ocupado"
+                ayuda = ", ".join(l["nombre"] for l in libres) if libres else \
+                        "; ".join(l["motivo"] for l in estado if l["ocupado"])
+                if fila[j + 1].button(texto, key=f"cal_{d}_{inicio}", disabled=pasado or not libres,
+                                      use_container_width=True, help=ayuda or None):
+                    st.session_state.lab_fecha = d
+                    st.session_state.lab_franja = (inicio, fin)
+                    if opcion != "Todos":
+                        st.session_state.lab_preferido = opcion
+                    st.rerun()
+        st.caption("Toca una franja para llenar la fecha y el horario de tu reserva.")
+
 
 # ------------------------------------------------------------------ firma electrónica simple
 def _hash(codigo6: str) -> str:
