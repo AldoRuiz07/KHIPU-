@@ -31,11 +31,13 @@ Funciona desde el celular o la laptop, sin instalar nada: **[khipu-fiee.streamli
 - [El problema](#el-problema)
 - [Lo que proponemos](#lo-que-proponemos)
 - [Qué puedes hacer en Khipu](#qué-puedes-hacer-en-khipu)
+- [Capturas](#capturas)
 - [Cómo usamos la IA](#cómo-usamos-la-ia)
 - [Seguridad](#seguridad)
 - [Cómo está construido](#cómo-está-construido)
 - [Lo que viene](#lo-que-viene)
 - [Correrlo en tu computadora](#correrlo-en-tu-computadora)
+- [Lo que aprendimos](#lo-que-aprendimos)
 - [Quiénes somos](#quiénes-somos)
 
 ---
@@ -43,10 +45,11 @@ Funciona desde el celular o la laptop, sin instalar nada: **[khipu-fiee.streamli
 ## Pruébalo en un minuto
 
 1. Entra a **[khipu-fiee.streamlit.app](https://khipu-fiee.streamlit.app)**. Si nadie la ha usado en un rato, tarda unos segundos en despertar.
-2. En **Preguntar**, escribe algo como *"¿hay 2N2222? necesito 2, agrégalo"*, o sube la foto de un componente o el PDF de tu guía.
-3. En **Mi proyecto**, cuéntale tu idea (*"un robot seguidor de línea con Arduino"*) y pasa la lista a **Mi lista**.
-4. En **Laboratorio**, elige día y hora, pon los datos de tu grupo y confirma la reserva con el código que te llega al correo de San Marcos.
-5. Si quieres ver el otro lado, cambia a **Encargado** (arriba a la derecha). La clave te la damos nosotros.
+2. En **Preguntar a Khipu**, escribe algo como *"¿hay 2N2222? necesito 2, agrégalo"*, o sube la foto de un componente o el PDF de tu guía.
+3. En **Armar un proyecto**, cuéntale tu idea (*"un robot seguidor de línea con Arduino"*) y pasa la lista a **Mi lista**.
+4. En **Reservar Laboratorio**, toca una franja libre del calendario semanal, pon los datos de tu grupo y confirma la reserva con el código que te llega al correo de San Marcos.
+5. En **Compra y Venta**, mira lo que otros estudiantes venden o publica lo que ya no usas.
+6. Si quieres ver el otro lado, cambia a **Encargado** en el selector de modo. La clave te la damos nosotros.
 
 ---
 
@@ -118,7 +121,7 @@ Lo que el chat o tu proyecto te recomiendan se va guardando en **Mi lista**, y c
 
 Arriba a la derecha eliges si entras como **estudiante** o como **encargado**.
 
-### Preguntar
+### Preguntar a Khipu
 
 Es un chat al que le hablas como a un compañero, y también le puedes mandar archivos:
 
@@ -131,19 +134,23 @@ Es un chat al que le hablas como a un compañero, y también le puedes mandar ar
 
 Si le dices *"agrégalo"*, lo pone en tu lista. Y algo importante: **Khipu no inventa stock**. Si algo no está en el inventario, te lo dice.
 
-### Mi proyecto
+### Armar un proyecto
 
 Le cuentas qué quieres armar y te devuelve la lista de componentes, para qué sirve cada uno, si hay, si falta o si no existe en el almacén, qué equivalentes puedes usar y algunos consejos. Con un clic pasa todo a tu lista. La tomamos como un punto de partida: siempre conviene revisar el datasheet.
 
-### Laboratorio
+### Reservar Laboratorio
 
-1. Eliges el día y una franja de 2 horas. Los laboratorios ocupados por clases u otras reservas aparecen ~~tachados~~.
+1. Abres el **calendario semanal** (lunes a sábado, franjas de 2 horas de 08:00 a 20:00) y tocas una casilla libre: la fecha, el horario y el laboratorio se llenan solos. Lo ocupado por clases u otras reservas aparece en gris.
 2. Pones el motivo y los datos del grupo (mínimo dos personas). El de la primera fila es el **líder** y pone su correo `@unmsm.edu.pe`.
 3. Los componentes de tu lista ya aparecen, con lo que realmente hay disponible en esa franja.
 4. Te llega un **código de 6 dígitos** al correo del líder; lo escribes y recién ahí se guarda la reserva.
 5. Recibes tu código `LAB-XXXX`, un comprobante para descargar y un correo con todo el detalle.
 
 ¿Cerraste la página? En *Consultar mi solicitud* pones tu **código de alumno** y ves todas tus reservas y en qué estado están. Cuando el encargado responde, también te llega un correo.
+
+### Compra y Venta
+
+Un espacio para comprar y vender componentes entre estudiantes de la facultad. Quien publica confirma con un código en su correo `@unmsm.edu.pe`, el encargado revisa el aviso antes de que aparezca, y cada publicación muestra el contacto del vendedor (correo y, si quiere, WhatsApp). Khipu no cobra ni intermedia: el trato es entre estudiantes.
 
 ### Encargado
 
@@ -153,6 +160,25 @@ Con su clave, el encargado ve cuántas solicitudes tiene pendientes (se actualiz
 - actualizar el inventario y el stock;
 - editar los laboratorios y el horario de clases;
 - ver qué es lo más pedido y qué está agotado, para planificar compras.
+
+---
+
+## Capturas
+
+<table>
+  <tr>
+    <td width="50%"><img src="assets/capturas/inicio.png" alt="Inicio de Khipu"><br><sub><b>Inicio.</b> Presentación, cifras del almacén y acceso a las cuatro herramientas.</sub></td>
+    <td width="50%"><img src="assets/capturas/chat-pdf.png" alt="Chat analizando un PDF"><br><sub><b>Preguntar a Khipu con un PDF.</b> Resume la guía, lista los componentes con su stock real y da consejos.</sub></td>
+  </tr>
+  <tr>
+    <td><img src="assets/capturas/chat-foto.png" alt="Chat identificando un componente por foto"><br><sub><b>Preguntar a Khipu con una foto.</b> Identifica el integrado por sus marcas, indica su nivel de confianza y lo busca en el almacén.</sub></td>
+    <td><img src="assets/capturas/proyecto.png" alt="Armar un proyecto"><br><sub><b>Armar un proyecto.</b> De una idea a la lista de materiales, cruzada con el stock y la ubicación.</sub></td>
+  </tr>
+  <tr>
+    <td><img src="assets/capturas/calendario.png" alt="Calendario semanal de laboratorios"><br><sub><b>Reservar Laboratorio.</b> Calendario semanal con las franjas libres; la casilla elegida queda resaltada.</sub></td>
+    <td><img src="assets/capturas/compra-venta.png" alt="Compra y Venta"><br><sub><b>Compra y Venta.</b> Publicaciones entre estudiantes, revisadas por el encargado.</sub></td>
+  </tr>
+</table>
 
 ---
 
@@ -227,7 +253,7 @@ flowchart TB
 - **Google Gemini** para el chat, las fotos, los PDFs y las listas de proyectos.
 - **Gmail (SMTP) y SHA-256** para los correos y el sello de cada reserva.
 
-Por ahora trabajamos con un inventario de ejemplo de 91 componentes e instrumentos que usamos en los cursos, y con laboratorios y horarios también de ejemplo. Cargar los datos reales es cuestión de reemplazar los archivos de `data/` o editarlos desde el panel del encargado.
+Por ahora trabajamos con un inventario de ejemplo de 95 componentes e instrumentos que usamos en los cursos, y con laboratorios y horarios también de ejemplo. Cargar los datos reales es cuestión de reemplazar los archivos de `data/` o editarlos desde el panel del encargado.
 
 ---
 
@@ -238,7 +264,9 @@ Lo que ya funciona:
 - [x] Chat con inventario real, equivalentes, fotos, PDFs y laboratorios libres
 - [x] Lista de componentes a partir de la idea del proyecto
 - [x] Mi lista compartida entre pestañas
-- [x] Reserva de laboratorio con componentes y stock por franja
+- [x] Reserva de laboratorio con calendario semanal, componentes y stock por franja
+- [x] Compra y Venta entre estudiantes, con publicaciones revisadas por el encargado
+- [x] Página de inicio, misión y visión, preguntas frecuentes y modo oscuro
 - [x] Confirmación con código al correo institucional y sello digital
 - [x] Comprobante, correo de confirmación y aviso cuando el encargado responde
 - [x] Panel del encargado en tiempo real
@@ -276,6 +304,21 @@ En el archivo `.env` (o en los *Secrets* de Streamlit Cloud) van estas variables
 | `MODELOS` | Los modelos a usar, en orden y separados por comas |
 | `CLAVE_ENCARGADO` | La clave del panel del encargado |
 | `CORREO_REMITENTE` y `CORREO_CLAVE` | La cuenta de Gmail que envía los correos y su contraseña de aplicación |
+
+---
+
+## Lo que aprendimos
+
+Khipu lo construimos en dos días para el hackathon ENEISOFT 2026. No ganamos, pero nos llevamos mucho más de lo que esperábamos:
+
+- **Trabajar en equipo con Git.** Empezamos sin saber bien qué era clonar un repositorio. Aprendimos a repartir el código por módulos para no pisarnos, a hacer *pull* antes de *push* y por qué nunca hay que forzar un *push* sobre el trabajo de un compañero (lo aprendimos a la mala, y recuperamos el commit desde una copia local).
+- **Cuidar las claves.** Una clave de API terminó por error en un archivo de ejemplo. La revocamos, separamos los secretos en `.env` y en los *Secrets* de Streamlit, y desde entonces nunca se suben al repositorio.
+- **Que la IA no adivine.** La parte más valiosa no fue el modelo, sino obligarlo a consultar datos reales con herramientas y dejar las validaciones importantes (stock, horarios, cruces) a código normal.
+- **Escuchar a los mentores.** La pregunta *"¿qué impide que alguien reserve a nombre de otro?"* nos llevó a la confirmación por correo y al sello digital, que terminaron siendo de lo mejor del proyecto.
+- **Publicar temprano.** Subir la app a la nube desde el primer día nos permitió probarla en varias laptops y celulares a la vez, y encontrar errores que en local no aparecían.
+- **Congelar el código a tiempo.** Cada cambio de último minuto reinicia la app y borra los datos de la demo. Fijar una hora de congelamiento y respetarla es parte del trabajo.
+
+También usamos asistentes de IA para programar más rápido, revisar errores y preparar el pitch. Las decisiones de diseño, los datos del almacén y las equivalencias entre componentes las definimos y revisamos nosotros.
 
 ---
 
